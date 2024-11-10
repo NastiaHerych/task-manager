@@ -1,0 +1,37 @@
+{
+  "track_wise": "TrackWise",
+  "placeholder": {
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "username_or_email": "Username or email",
+    "confirm_password": "Confirm password"
+  },
+  "login": {
+    "title": "Login",
+    "validators": {
+      "username_or_email": "Username or Email is required",
+      "password": "Password is required"
+    },
+    "button": "Log In",
+    "no_account": "Not having an account?",
+    "sign_up_here": "Sign up here!"
+  },
+  "sign-up": {
+    "title": "Sign Up",
+    "button": "Sign Up",
+    "select_role": "Select role",
+    "validators": {
+      "username": "Username is required",
+      "email": " Email is required",
+      "email_valid": "Enter a valid email",
+      "password": "Password is required",
+      "password_valid": "Password must be at least 6 characters",
+      "password_match": "Passwords do not match",
+      "role": "Role is required"
+    },
+    "already_having": "Already having an account?",
+    "login_here": "Login here!"
+  },
+  "language": "Language: "
+}

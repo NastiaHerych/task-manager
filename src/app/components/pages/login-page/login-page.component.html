@@ -1,0 +1,67 @@
+<div class="flex flex-col gap-4 justify-center items-center h-screen">
+  <p class="text-white font-bold text-2xl">
+    <i class="fa-solid fa-network-wired pr-1 text-white font-bold text-2xl"></i>
+    {{ "track_wise" | translate }}
+  </p>
+  <div class="flex flex-col bg-navy p-6 min-w-30rem gap-4">
+    <p class="text-white font-bold text-xl">
+      {{ "login.title" | translate }}
+    </p>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+      <!-- Username/Email Field -->
+      <div class="mb-4">
+        <input
+          type="text"
+          placeholder="{{ 'placeholder.username_or_email' | translate }}"
+          id="usernameOrEmail"
+          formControlName="usernameOrEmail"
+          class="w-full mt-2 p-2 border rounded-md focus:ring focus:ring-indigo-200 outline-none text-chrome bg-navy-light placeholder:text-navy"
+          [ngClass]="{
+            'border-red-500':
+              submitted && loginForm.get('usernameOrEmail')?.invalid
+          }"
+        />
+        <div
+          *ngIf="submitted && loginForm.get('usernameOrEmail')?.errors?.['required']"
+          class="text-red-500 text-sm mt-1"
+        >
+          {{ "login.validators.username_or_email" | translate }}
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="mb-4">
+        <input
+          type="password"
+          placeholder="{{ 'placeholder.password' | translate }}"
+          id="password"
+          formControlName="password"
+          class="w-full mt-2 p-2 border rounded-md focus:ring focus:ring-indigo-200 outline-none text-chrome bg-navy-light placeholder:text-navy"
+          [ngClass]="{
+            'border-red-500': submitted && loginForm.get('password')?.invalid
+          }"
+        />
+        <div
+          *ngIf="submitted && loginForm.get('password')?.errors?.['required']"
+          class="text-red-500 text-sm mt-1"
+        >
+          {{ "login.validators.password" | translate }}
+        </div>
+      </div>
+
+      <div class="flex justify-between">
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="py-2 px-5 mt-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          {{ "login.button" | translate }}
+        </button>
+        <p class="text-navy-light self-center text-righ">
+          {{ "login.no_account" | translate }}
+          <a routerLink="/sign-up">{{ "login.sign_up_here" | translate }}</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

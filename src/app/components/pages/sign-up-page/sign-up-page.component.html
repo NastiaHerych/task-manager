@@ -1,0 +1,146 @@
+<div class="flex flex-col gap-4 justify-center items-center h-screen">
+  <p class="text-white font-bold text-2xl">
+    <i class="fa-solid fa-network-wired pr-1 text-white font-bold text-2xl"></i>
+    {{ "track_wise" | translate }}
+  </p>
+  <div class="flex flex-col bg-navy p-6 min-w-30rem gap-4">
+    <p class="text-white font-bold text-xl">
+      {{ "sign-up.title" | translate }}
+    </p>
+    <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" novalidate>
+      <!-- Username Field -->
+      <div class="mb-4">
+        <input
+          type="text"
+          placeholder="{{ 'placeholder.username' | translate }}"
+          id="username"
+          formControlName="username"
+          class="w-full mt-2 p-2 border rounded-md focus:ring focus:ring-indigo-200 outline-none text-chrome bg-navy-light placeholder:text-navy"
+          [ngClass]="{
+            'border-red-500': submitted && signUpForm.get('username')?.invalid
+          }"
+        />
+        <div
+          *ngIf="submitted && signUpForm.get('username')?.errors?.['required']"
+          class="text-red-500 text-sm mt-1"
+        >
+          {{ "sign-up.validators.username" | translate }}
+        </div>
+      </div>
+
+      <!-- Email Field -->
+      <div class="mb-4">
+        <input
+          type="email"
+          placeholder="{{ 'placeholder.email' | translate }}"
+          id="email"
+          formControlName="email"
+          class="w-full mt-2 p-2 border rounded-md focus:ring focus:ring-indigo-200 outline-none text-chrome bg-navy-light placeholder:text-navy"
+          [ngClass]="{
+            'border-red-500': submitted && signUpForm.get('email')?.invalid
+          }"
+        />
+        <div
+          *ngIf="submitted && signUpForm.get('email')?.errors?.['required']"
+          class="text-red-500 text-sm mt-1"
+        >
+          {{ "sign-up.validators.email" | translate }}
+        </div>
+        <div
+          *ngIf="submitted && signUpForm.get('email')?.errors?.['email']"
+          class="text-red-500 text-sm mt-1"
+        >
+          {{ "sign-up.validators.email_valid" | translate }}
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="mb-4">
+        <input
+          type="password"
+          placeholder="{{ 'placeholder.password' | translate }}"
+          id="password"
+          formControlName="password"
+          class="w-full mt-2 p-2 border rounded-md focus:ring focus:ring-indigo-200 outline-none text-chrome bg-navy-light placeholder:text-navy"
+          [ngClass]="{
+            'border-red-500': submitted && signUpForm.get('password')?.invalid
+          }"
+        />
+        <div
+          *ngIf="submitted && signUpForm.get('password')?.errors?.['required']"
+          class="text-red-500 text-sm mt-1"
+        >
+          {{ "sign-up.validators.password" | translate }}
+        </div>
+        <div
+          *ngIf="submitted && signUpForm.get('password')?.errors?.['minlength']"
+          class="text-red-500 text-sm mt-1"
+        >
+          {{ "sign-up.validators.password_valid" | translate }}
+        </div>
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="mb-4">
+        <input
+          type="password"
+          placeholder="{{ 'placeholder.confirm_password' | translate }}"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          class="w-full mt-2 p-2 border rounded-md focus:ring focus:ring-indigo-200 outline-none text-chrome bg-navy-light placeholder:text-navy"
+          [ngClass]="{
+            'border-red-500': submitted && signUpForm.hasError('mismatch')
+          }"
+        />
+        <div
+          *ngIf="submitted && signUpForm.hasError('mismatch')"
+          class="text-red-500 text-sm mt-1"
+        >
+          {{ "sign-up.validators.password_match" | translate }}
+        </div>
+      </div>
+
+      <!-- Role Dropdown -->
+      <div class="mb-4">
+        <select
+          id="role"
+          formControlName="role"
+          class="w-full mt-2 p-2 border rounded-md focus:ring focus:ring-indigo-200 outline-none text-navy bg-navy-light placeholder:text-navy"
+          [ngClass]="{
+            'border-red-500': submitted && signUpForm.get('role')?.invalid
+          }"
+        >
+          <option value="" disabled selected>
+            {{ "sign-up.select_role" | translate }}
+          </option>
+          <option
+            *ngFor="let role of userRoles | keyvalue"
+            [value]="role.value"
+          >
+            {{ role.value }}
+          </option>
+        </select>
+        <div
+          *ngIf="submitted && signUpForm.get('role')?.errors?.['required']"
+          class="text-red-500 text-sm mt-1"
+        >
+          {{ "sign-up.validators.role" | translate }}
+        </div>
+      </div>
+
+      <div class="flex justify-between">
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="py-2 px-5 mt-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          {{ "sign-up.button" | translate }}
+        </button>
+        <p class="text-navy-light self-center text-righ">
+          {{ "sign-up.already_having" | translate }}
+          <a routerLink="/login">{{ "sign-up.login_here" | translate }}</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>
