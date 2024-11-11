@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CustomerDataModel } from 'src/app/shared/models/customer-data.model';
 
 @Component({
   selector: 'app-home-page',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent {
-
+  @Input() customerData: CustomerDataModel;
 }

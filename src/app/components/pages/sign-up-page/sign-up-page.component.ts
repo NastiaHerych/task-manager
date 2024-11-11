@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Route } from 'src/app/shared/enums/route.enum';
 import { UserRole } from 'src/app/shared/enums/user-role.enum';
+import { SignUpService } from 'src/app/shared/services/authorization/signup.service';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -12,7 +15,12 @@ export class SignUpPageComponent {
   submitted = false;
   userRoles = UserRole;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private signUpService: SignUpService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.signUpForm = this.fb.group(
       {
         username: ['', Validators.required],
@@ -34,7 +42,19 @@ export class SignUpPageComponent {
   onSubmit() {
     this.submitted = true;
     if (this.signUpForm.valid) {
-      console.log('Form Submitted', this.signUpForm.value);
+      this.signUpService.signUp(this.signUpForm.value).subscribe({
+        next: (response) => {
+          console.log('Sign-Up Successful:', response);
+          this.router
+            .navigate([Route.LOGIN], {
+              relativeTo: this.route,
+            })
+            .then(() => {});;
+        },
+        error: (error) => {
+          console.error('Sign-Up Error:', error);
+        },
+      });
     }
   }
 }

@@ -7,11 +7,17 @@ import { SignUpPageComponent } from './components/pages/sign-up-page/sign-up-pag
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpClientModule,
+} from '@angular/common/http';
 import { AppTranslateLoader } from './shared/services/app-translate-loader';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LanguagesComponent } from './components/languages/languages.component';
 import { HeaderComponent } from './components/header/header.component';
+import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
+import { RouterModule } from '@angular/router';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new AppTranslateLoader(http);
@@ -33,6 +39,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    RouterModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -41,7 +48,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
