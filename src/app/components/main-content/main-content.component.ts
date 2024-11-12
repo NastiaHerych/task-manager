@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import {
   CdkDragDrop,
@@ -8,6 +7,7 @@ import {
 import { LoginService } from 'src/app/shared/services/authorization/login.service';
 import { TasksService } from 'src/app/shared/services/tasks.service';
 import { CustomerDataModel } from 'src/app/shared/models/customer-data.model';
+import { UserRole } from 'src/app/shared/enums/user-role.enum';
 
 @Component({
   selector: 'app-main-content',
@@ -17,19 +17,17 @@ import { CustomerDataModel } from 'src/app/shared/models/customer-data.model';
 export class MainContentComponent {
   tasks: any;
   customerData: CustomerDataModel;
-  displayedTasks: any[] = []; // Array to store filtered tasks
+  displayedTasks: any[] = [];
+  UserRole = UserRole;
 
   constructor(
     private loginService: LoginService,
     private tasksService: TasksService
   ) {}
 
-  statuses = [
-    'new',
-    'in_progress',
-    'in_review',
-    'blocked',
-    'done',
+  // Statuses for different roles
+  developerStatuses = ['new', 'in_progress', 'in_review', 'blocked', 'done'];
+  qaStatuses = [
     'ready_for_qa',
     'in_qa',
     'qa_passed',
@@ -37,8 +35,7 @@ export class MainContentComponent {
     'deployed',
   ];
 
-  // Max 5 statuses to display
-  selectedStatuses = ['new', 'in_progress', 'in_review', 'blocked', 'done'];
+  selectedStatuses = this.developerStatuses; // Default to developer
 
   tasksList: { [key: string]: any[] } = {
     new: [],
@@ -46,23 +43,30 @@ export class MainContentComponent {
     in_review: [],
     blocked: [],
     done: [],
+    ready_for_qa: [],
+    in_qa: [],
+    qa_passed: [],
+    preprod_passed: [],
+    deployed: [],
   };
 
   ngOnInit() {
     this.loginService.customerData$.subscribe((value) => {
       this.customerData = value;
+      this.selectedStatuses =
+        this.customerData.role === UserRole.Developer
+          ? this.developerStatuses
+          : this.qaStatuses;
+
       this.tasksService
         .getTasksByProjects(this.customerData._id)
         .subscribe((value) => {
           this.tasks = value.tasks;
-          console.log('00', this.tasks);
-          // this.loadTasks(this.tasks);
           this.loadTasksForProject(this.tasks[0].project_id, 'all');
         });
     });
   }
 
-  // Load tasks based on project and task type
   loadTasksForProject(projectId: string, taskType: string) {
     const selectedProject = this.tasks.find(
       (project) => project.project_id === projectId
@@ -77,12 +81,11 @@ export class MainContentComponent {
           return task.is_completed;
         case 'incompleted':
           return !task.is_completed;
-        default: // 'all'
+        default:
           return true;
       }
     });
 
-    // Clear tasksList and categorize filtered tasks by status
     this.resetTaskList();
     tasks.forEach((task) => {
       const status = task.status as keyof typeof this.tasksList;
@@ -92,26 +95,14 @@ export class MainContentComponent {
     });
   }
 
-  // Reset task list to start fresh for each selection
   private resetTaskList() {
     Object.keys(this.tasksList).forEach((key) => {
       this.tasksList[key as keyof typeof this.tasksList] = [];
     });
   }
 
-  // Handle project selection from the navigation bar
   onProjectSelection(event: { projectId: string; taskType: string }) {
     this.loadTasksForProject(event.projectId, event.taskType);
-  }
-
-  // Load tasks based on project data
-  loadTasks(projectData: any[]) {
-    projectData.forEach((project) => {
-      project.tasks.forEach((task) => {
-        this.tasksList[task.status].push(task);
-      });
-    });
-    console.log(this.tasksList);
   }
 
   drop(event: CdkDragDrop<any[]>, newStatus: string) {
@@ -126,7 +117,6 @@ export class MainContentComponent {
       const oldStatus = task.status;
       task.status = newStatus;
 
-      // Call backend to update status
       this.tasksService.updateTaskStatus(task._id, newStatus).subscribe(
         () => {
           transferArrayItem(
@@ -138,13 +128,12 @@ export class MainContentComponent {
         },
         (error) => {
           console.error('Failed to update task status', error);
-          task.status = oldStatus; // Revert status if update fails
+          task.status = oldStatus;
         }
       );
     }
   }
 
-  // Function for dynamically passing new status
   dropWithNewStatus(event: CdkDragDrop<string[]>, newStatus: string) {
     this.drop(event, newStatus);
   }

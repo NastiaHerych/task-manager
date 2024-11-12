@@ -1,3 +1,48 @@
 {
-  "track_wise": "Track Wise"
+  "track_wise": "TrackWise",
+  "placeholder": {
+    "username": "Nombre de usuario",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "username_or_email": "Nombre de usuario o correo electrónico",
+    "confirm_password": "Confirmar contraseña"
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "validators": {
+      "username_or_email": "Nombre de usuario o correo electrónico requerido",
+      "password": "Contraseña requerida"
+    },
+    "button": "Iniciar sesión",
+    "no_account": "¿No tienes una cuenta?",
+    "sign_up_here": "¡Regístrate aquí!"
+  },
+  "sign-up": {
+    "title": "Registrarse",
+    "button": "Registrarse",
+    "select_role": "Seleccionar rol",
+    "validators": {
+      "username": "Nombre de usuario requerido",
+      "email": "Correo electrónico requerido",
+      "email_valid": "Ingrese un correo electrónico válido",
+      "password": "Contraseña requerida",
+      "password_valid": "La contraseña debe tener al menos 6 caracteres",
+      "password_match": "Las contraseñas no coinciden",
+      "role": "Rol requerido"
+    },
+    "already_having": "¿Ya tienes una cuenta?",
+    "login_here": "¡Inicia sesión aquí!"
+  },
+  "navbar": {
+    "settings": "Configuración",
+    "userInfo": "Información del usuario",
+    "support": "Soporte",
+    "taskTypes": {
+      "allTasks": "Todas las tareas",
+      "importantTasks": "Tareas importantes",
+      "completedTasks": "Tareas completadas",
+      "incompletedTasks": "Tareas incompletas"
+    }
+  },
+  "language": "Idioma: "
 }

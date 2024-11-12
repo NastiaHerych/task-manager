@@ -155,7 +155,7 @@ async function getTasksByUserId(req, res) {
 async function updateTaskStatus(req, res) {
   try {
     const { task_id } = req.params;
-    const { status } = req.body;
+    let { status } = req.body;
 
     // Define allowed statuses
     const allowedStatuses = [
@@ -178,6 +178,11 @@ async function updateTaskStatus(req, res) {
         message:
           "Invalid status. Must be one of: " + allowedStatuses.join(", "),
       });
+    }
+
+    // If status is 'done', automatically set to 'ready_for_qa'
+    if (status === "done") {
+      status = "ready_for_qa";
     }
 
     // Define the condition for setting the 'is_completed' field

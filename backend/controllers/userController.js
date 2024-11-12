@@ -31,4 +31,55 @@ async function getUser(req, res) {
   }
 }
 
-module.exports = { getUser };
+async function updateUserLanguage(req, res) {
+  try {
+    const { userId, language } = req.body; // language can be "EN", "FR", "ES"
+    const usersCollection = myDB.collection("users");
+
+    const result = await usersCollection.updateOne(
+      { _id: new ObjectId(userId) },
+      { $set: { language: language || "EN" } } // Default to "EN" if not provided
+    );
+
+    if (result.modifiedCount === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: "Language updated successfully" });
+  } catch (error) {
+    console.error("Error updating language:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to update language" });
+  }
+}
+
+async function getUserLanguage(req, res) {
+  try {
+    const userId = req.params.userId; // Accepts userId as a URL parameter
+
+    const user = await myDB
+      .collection("users")
+      .findOne({ _id: new ObjectId(userId) });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const language = user.language || "EN"; // Default to "EN" if no language is set
+    res.status(200).json({ success: true, language });
+  } catch (error) {
+    console.error("Error fetching user language:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to fetch language preference" });
+  }
+}
+
+module.exports = { getUser, updateUserLanguage, getUserLanguage };

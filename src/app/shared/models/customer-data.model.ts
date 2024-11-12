@@ -1,3 +1,4 @@
+import { LanguageEnum } from "../enums/language.enum";
 import { UserRole } from "../enums/user-role.enum";
 
 export class CustomerDataModel {
@@ -6,4 +7,5 @@ export class CustomerDataModel {
     role: UserRole;
     email: string;
     password: string;
+    language: LanguageEnum;
 }

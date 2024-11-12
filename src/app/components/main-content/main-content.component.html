@@ -1,4 +1,7 @@
-<div class="flex gap-1 bg-navy py-4 px-5 rounded-lg">
+<div
+  class="flex gap-1 bg-navy py-4 px-5 rounded-lg"
+  *ngIf="customerData.role === UserRole.Developer"
+>
   <div class="example-container gap-3 w-1/5">
     <h2 class="text-center text-white text-xl font-semibold">To do</h2>
     <div
@@ -136,6 +139,162 @@
           'bg-red-300': item.is_important
         }"
         *ngFor="let item of tasksList['done']; trackBy: trackByFn"
+        cdkDrag
+      >
+        <p class="font-base font-semibold">{{ item.title }}</p>
+        <p class="text-navy">{{ item.description }}</p>
+        <p class="text-brown">ST: {{ item.story_points }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="flex gap-1 bg-navy py-4 px-5 rounded-lg"
+  *ngIf="customerData.role === UserRole.QA"
+>
+  <div class="example-container gap-3 w-1/5">
+    <h2 class="text-center text-white text-xl font-semibold">Ready for QA</h2>
+    <div
+      cdkDropList
+      #ready_for_qaList="cdkDropList"
+      [cdkDropListData]="tasksList['ready_for_qa']"
+      [cdkDropListConnectedTo]="[
+        in_qaList,
+        qa_passedList,
+        preprod_passedList,
+        deployedList
+      ]"
+      (cdkDropListDropped)="dropWithNewStatus($event, 'ready_for_qa')"
+      class="example-list bg-beige"
+    >
+      <div
+        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+        [ngClass]="{
+          'bg-beige': !item.is_important,
+          'bg-red-300': item.is_important
+        }"
+        *ngFor="let item of tasksList['ready_for_qa']; trackBy: trackByFn"
+        cdkDrag
+      >
+        <p class="font-base font-semibold">{{ item.title }}</p>
+        <p class="text-navy">{{ item.description }}</p>
+        <p class="text-brown">ST: {{ item.story_points }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="example-container gap-3 w-1/5">
+    <h2 class="text-center text-white text-xl font-semibold">In QA</h2>
+    <div
+      cdkDropList
+      #in_qaList="cdkDropList"
+      [cdkDropListData]="tasksList['in_qa']"
+      [cdkDropListConnectedTo]="[
+        ready_for_qaList,
+        qa_passedList,
+        preprod_passedList,
+        deployedList
+      ]"
+      (cdkDropListDropped)="dropWithNewStatus($event, 'in_qa')"
+      class="example-list bg-beige"
+    >
+      <div
+        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+        [ngClass]="{
+          'bg-beige': !item.is_important,
+          'bg-red-300': item.is_important
+        }"
+        *ngFor="let item of tasksList['in_qa']; trackBy: trackByFn"
+        cdkDrag
+      >
+        <p class="font-base font-semibold">{{ item.title }}</p>
+        <p class="text-navy">{{ item.description }}</p>
+        <p class="text-brown">ST: {{ item.story_points }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="example-container gap-3 w-1/5">
+    <h2 class="text-center text-white text-xl font-semibold">QA Passed</h2>
+    <div
+      cdkDropList
+      #qa_passedList="cdkDropList"
+      [cdkDropListData]="tasksList['qa_passed']"
+      [cdkDropListConnectedTo]="[
+        ready_for_qaList,
+        in_qaList,
+        preprod_passedList,
+        deployedList
+      ]"
+      (cdkDropListDropped)="dropWithNewStatus($event, 'qa_passed')"
+      class="example-list bg-beige"
+    >
+      <div
+        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+        [ngClass]="{
+          'bg-beige': !item.is_important,
+          'bg-red-300': item.is_important
+        }"
+        *ngFor="let item of tasksList['qa_passed']; trackBy: trackByFn"
+        cdkDrag
+      >
+        <p class="font-base font-semibold">{{ item.title }}</p>
+        <p class="text-navy">{{ item.description }}</p>
+        <p class="text-brown">ST: {{ item.story_points }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="example-container gap-3 w-1/5">
+    <h2 class="text-center text-white text-xl font-semibold">Preprod Passed</h2>
+    <div
+      cdkDropList
+      #preprod_passedList="cdkDropList"
+      [cdkDropListData]="tasksList['preprod_passed']"
+      [cdkDropListConnectedTo]="[
+        ready_for_qaList,
+        in_qaList,
+        qa_passedList,
+        deployedList
+      ]"
+      (cdkDropListDropped)="dropWithNewStatus($event, 'preprod_passed')"
+      class="example-list bg-beige"
+    >
+      <div
+        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+        [ngClass]="{
+          'bg-beige': !item.is_important,
+          'bg-red-300': item.is_important
+        }"
+        *ngFor="let item of tasksList['preprod_passed']; trackBy: trackByFn"
+        cdkDrag
+      >
+        <p class="font-base font-semibold">{{ item.title }}</p>
+        <p class="text-navy">{{ item.description }}</p>
+        <p class="text-brown">ST: {{ item.story_points }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="example-container gap-3 w-1/5">
+    <h2 class="text-center text-white text-xl font-semibold">Done</h2>
+    <div
+      cdkDropList
+      #deployedList="cdkDropList"
+      [cdkDropListData]="tasksList['deployed']"
+      [cdkDropListConnectedTo]="[
+        ready_for_qaList,
+        in_qaList,
+        qa_passedList,
+        preprod_passedList
+      ]"
+      (cdkDropListDropped)="dropWithNewStatus($event, 'deployed')"
+      class="example-list bg-beige"
+    >
+      <div
+        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+        [ngClass]="{
+          'bg-beige': !item.is_important,
+          'bg-red-300': item.is_important
+        }"
+        *ngFor="let item of tasksList['deployed']; trackBy: trackByFn"
         cdkDrag
       >
         <p class="font-base font-semibold">{{ item.title }}</p>

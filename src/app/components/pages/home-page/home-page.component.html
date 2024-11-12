@@ -6,7 +6,7 @@
         [tasks]="tasks"
         (projectSelected)="mainContent.onProjectSelection($event)"
       ></app-navigation-bar>
-      <app-languages></app-languages>
+      <app-languages [customerData]="customerData"></app-languages>
     </div>
     <app-main-content #mainContent class="w-5/6"></app-main-content>
   </div>

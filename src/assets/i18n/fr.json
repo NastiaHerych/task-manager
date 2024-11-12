@@ -1,3 +1,48 @@
 {
-  "track_wise": "Track wise"
+  "track_wise": "TrackWise",
+  "placeholder": {
+    "username": "Nom d'utilisateur",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "username_or_email": "Nom d'utilisateur ou e-mail",
+    "confirm_password": "Confirmez le mot de passe"
+  },
+  "login": {
+    "title": "Connexion",
+    "validators": {
+      "username_or_email": "Nom d'utilisateur ou e-mail requis",
+      "password": "Mot de passe requis"
+    },
+    "button": "Se connecter",
+    "no_account": "Vous n'avez pas de compte ?",
+    "sign_up_here": "Inscrivez-vous ici !"
+  },
+  "sign-up": {
+    "title": "Inscription",
+    "button": "S'inscrire",
+    "select_role": "Sélectionnez un rôle",
+    "validators": {
+      "username": "Nom d'utilisateur requis",
+      "email": "E-mail requis",
+      "email_valid": "Entrez un e-mail valide",
+      "password": "Mot de passe requis",
+      "password_valid": "Le mot de passe doit contenir au moins 6 caractères",
+      "password_match": "Les mots de passe ne correspondent pas",
+      "role": "Rôle requis"
+    },
+    "already_having": "Vous avez déjà un compte ?",
+    "login_here": "Connectez-vous ici !"
+  },
+  "navbar": {
+    "settings": "Paramètres",
+    "userInfo": "Informations utilisateur",
+    "support": "Support",
+    "taskTypes": {
+      "allTasks": "Toutes les tâches",
+      "importantTasks": "Tâches importantes",
+      "completedTasks": "Tâches terminées",
+      "incompletedTasks": "Tâches incomplètes"
+    }
+  },
+  "language": "Langue : "
 }
