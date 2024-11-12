@@ -1,7 +1,12 @@
 <div class="flex flex-col gap-2 bg-navy py-4 px-5 rounded-lg text-lg">
   <div *ngFor="let project of tasks" class="flex flex-col">
     <div class="flex items-center justify-between">
-      <span class="text-white">{{ project.project_info.name }}</span>
+      <span
+        class="text-white font-semibold"
+        (click)="toggleTasks(project.project_id)"
+      >
+        {{ project.project_info.name }}
+      </span>
       <button (click)="toggleTasks(project.project_id)" class="text-white">
         <i
           class="fas fa-chevron-down"
@@ -15,20 +20,40 @@
     <!-- Expandable task list -->
     <div
       *ngIf="expandedProjectIds.has(project.project_id)"
-      class="pl-5 text-base"
+      class="text-base text-right"
     >
-      <ul class="text-white space-y-1">
-        <li>{{ "navbar.taskTypes.allTasks" | translate }}</li>
-        <li>{{ "navbar.taskTypes.importantTasks" | translate }}</li>
-        <li>{{ "navbar.taskTypes.completedTasks" | translate }}</li>
-        <li>{{ "navbar.taskTypes.incompletedTasks" | translate }}</li>
-      </ul>
+      <div class="text-beige">
+        <button
+          [ngClass]="{ 'font-bold text-shadow': selectedTaskType === 'all' }"
+          (click)="selectTaskType(project.project_id, 'all')"
+        >
+          {{ "navbar.taskTypes.allTasks" | translate }}
+        </button>
+        <button
+          [ngClass]="{
+            'font-bold text-shadow': selectedTaskType === 'important'
+          }"
+          (click)="selectTaskType(project.project_id, 'important')"
+        >
+          {{ "navbar.taskTypes.importantTasks" | translate }}
+        </button>
+        <button
+          [ngClass]="{
+            'font-bold text-shadow': selectedTaskType === 'completed'
+          }"
+          (click)="selectTaskType(project.project_id, 'completed')"
+        >
+          {{ "navbar.taskTypes.completedTasks" | translate }}
+        </button>
+        <button
+          [ngClass]="{
+            'font-bold text-shadow': selectedTaskType === 'incompleted'
+          }"
+          (click)="selectTaskType(project.project_id, 'incompleted')"
+        >
+          {{ "navbar.taskTypes.incompletedTasks" | translate }}
+        </button>
+      </div>
     </div>
-  </div>
-
-  <div class="mt-4 text-white">
-    <div>{{ "navbar.settings" | translate }}</div>
-    <div>{{ "navbar.userInfo" | translate }}</div>
-    <div>{{ "navbar.support" | translate }}</div>
   </div>
 </div>

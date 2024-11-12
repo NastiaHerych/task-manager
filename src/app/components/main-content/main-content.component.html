@@ -1,1 +1,147 @@
-
+<div class="flex gap-1 bg-navy py-4 px-5 rounded-lg">
+  <div class="example-container gap-3 w-1/5">
+    <h2 class="text-center text-white text-xl font-semibold">To do</h2>
+    <div
+      cdkDropList
+      #todoList="cdkDropList"
+      [cdkDropListData]="tasksList['new']"
+      [cdkDropListConnectedTo]="[
+        inProgressList,
+        inReviewList,
+        blockedList,
+        doneList
+      ]"
+      (cdkDropListDropped)="dropWithNewStatus($event, 'new')"
+      class="example-list bg-beige"
+    >
+      <div
+        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+        [ngClass]="{
+          'bg-beige': !item.is_important,
+          'bg-red-300': item.is_important
+        }"
+        *ngFor="let item of tasksList['new']; trackBy: trackByFn"
+        cdkDrag
+      >
+        <p class="font-base font-semibold">{{ item.title }}</p>
+        <p class="text-navy">{{ item.description }}</p>
+        <p class="text-brown">ST: {{ item.story_points }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="example-container gap-3 w-1/5">
+    <h2 class="text-center text-white text-xl font-semibold">In progress</h2>
+    <div
+      cdkDropList
+      #inProgressList="cdkDropList"
+      [cdkDropListData]="tasksList['in_progress']"
+      [cdkDropListConnectedTo]="[todoList, inReviewList, blockedList, doneList]"
+      (cdkDropListDropped)="dropWithNewStatus($event, 'in_progress')"
+      class="example-list bg-beige"
+    >
+      <div
+        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+        [ngClass]="{
+          'bg-beige': !item.is_important,
+          'bg-red-300': item.is_important
+        }"
+        *ngFor="let item of tasksList['in_progress']; trackBy: trackByFn"
+        cdkDrag
+      >
+        <p class="font-base font-semibold">{{ item.title }}</p>
+        <p class="text-navy">{{ item.description }}</p>
+        <p class="text-brown">ST: {{ item.story_points }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="example-container gap-3 w-1/5">
+    <h2 class="text-center text-white text-xl font-semibold">In review</h2>
+    <div
+      cdkDropList
+      #inReviewList="cdkDropList"
+      [cdkDropListData]="tasksList['in_review']"
+      [cdkDropListConnectedTo]="[
+        todoList,
+        inProgressList,
+        blockedList,
+        doneList
+      ]"
+      (cdkDropListDropped)="dropWithNewStatus($event, 'in_review')"
+      class="example-list bg-beige"
+    >
+      <div
+        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+        [ngClass]="{
+          'bg-beige': !item.is_important,
+          'bg-red-300': item.is_important
+        }"
+        *ngFor="let item of tasksList['in_review']; trackBy: trackByFn"
+        cdkDrag
+      >
+        <p class="font-base font-semibold">{{ item.title }}</p>
+        <p class="text-navy">{{ item.description }}</p>
+        <p class="text-brown">ST: {{ item.story_points }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="example-container gap-3 w-1/5">
+    <h2 class="text-center text-white text-xl font-semibold">Blocked</h2>
+    <div
+      cdkDropList
+      #blockedList="cdkDropList"
+      [cdkDropListData]="tasksList['blocked']"
+      [cdkDropListConnectedTo]="[
+        todoList,
+        inProgressList,
+        inReviewList,
+        doneList
+      ]"
+      (cdkDropListDropped)="dropWithNewStatus($event, 'blocked')"
+      class="example-list bg-beige"
+    >
+      <div
+        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+        [ngClass]="{
+          'bg-beige': !item.is_important,
+          'bg-red-300': item.is_important
+        }"
+        *ngFor="let item of tasksList['blocked']; trackBy: trackByFn"
+        cdkDrag
+      >
+        <p class="font-base font-semibold">{{ item.title }}</p>
+        <p class="text-navy">{{ item.description }}</p>
+        <p class="text-brown">ST: {{ item.story_points }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="example-container gap-3 w-1/5">
+    <h2 class="text-center text-white text-xl font-semibold">Done</h2>
+    <div
+      cdkDropList
+      #doneList="cdkDropList"
+      [cdkDropListData]="tasksList['done']"
+      [cdkDropListConnectedTo]="[
+        todoList,
+        inProgressList,
+        inReviewList,
+        blockedList
+      ]"
+      (cdkDropListDropped)="dropWithNewStatus($event, 'done')"
+      class="example-list bg-beige"
+    >
+      <div
+        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+        [ngClass]="{
+          'bg-beige': !item.is_important,
+          'bg-red-300': item.is_important
+        }"
+        *ngFor="let item of tasksList['done']; trackBy: trackByFn"
+        cdkDrag
+      >
+        <p class="font-base font-semibold">{{ item.title }}</p>
+        <p class="text-navy">{{ item.description }}</p>
+        <p class="text-brown">ST: {{ item.story_points }}</p>
+      </div>
+    </div>
+  </div>
+</div>

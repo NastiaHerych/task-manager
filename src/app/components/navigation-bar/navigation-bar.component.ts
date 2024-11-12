@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CustomerDataModel } from 'src/app/shared/models/customer-data.model';
 import { LoginService } from 'src/app/shared/services/authorization/login.service';
 
@@ -10,8 +10,13 @@ import { LoginService } from 'src/app/shared/services/authorization/login.servic
 export class NavigationBarComponent implements OnInit {
   customerData: CustomerDataModel;
   expandedProjectIds: Set<string> = new Set();
+  selectedTaskType: string = '';
 
   @Input() tasks: any;
+  @Output() projectSelected = new EventEmitter<{
+    projectId: string;
+    taskType: string;
+  }>();
 
   constructor(private loginService: LoginService) {}
 
@@ -24,9 +29,14 @@ export class NavigationBarComponent implements OnInit {
 
   toggleTasks(projectId: string) {
     if (this.expandedProjectIds.has(projectId)) {
-      this.expandedProjectIds.delete(projectId); // Collapse if already expanded
+      this.expandedProjectIds.delete(projectId);
     } else {
-      this.expandedProjectIds.add(projectId); // Expand if collapsed
+      this.expandedProjectIds.add(projectId);
     }
+  }
+
+  selectTaskType(projectId: string, taskType: string) {
+    this.selectedTaskType = taskType;
+    this.projectSelected.emit({ projectId, taskType });
   }
 }

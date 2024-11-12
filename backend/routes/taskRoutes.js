@@ -1,5 +1,9 @@
 const express = require("express");
-const { createTask, getTasksByUserId } = require("../controllers/taskController");
+const {
+  createTask,
+  getTasksByUserId,
+  updateTaskStatus,
+} = require("../controllers/taskController");
 
 const router = express.Router();
 
@@ -7,5 +11,6 @@ const router = express.Router();
 router.post("/create", createTask);
 // Get tasks by user_id, structured by projects
 router.get("/user/:user_id", getTasksByUserId);
+router.patch("/:task_id/status", updateTaskStatus);
 
 module.exports = router;

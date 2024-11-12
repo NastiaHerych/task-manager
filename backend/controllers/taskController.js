@@ -151,4 +151,69 @@ async function getTasksByUserId(req, res) {
   }
 }
 
-module.exports = { createTask, getTasksByUserId };
+// Function to update task status by task ID
+async function updateTaskStatus(req, res) {
+  try {
+    const { task_id } = req.params;
+    const { status } = req.body;
+
+    // Define allowed statuses
+    const allowedStatuses = [
+      "new",
+      "in_progress",
+      "in_review",
+      "blocked",
+      "done",
+      "ready_for_qa",
+      "in_qa",
+      "qa_passed",
+      "preprod_passed",
+      "deployed",
+    ];
+
+    // Check if the provided status is valid
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Invalid status. Must be one of: " + allowedStatuses.join(", "),
+      });
+    }
+
+    // Define the condition for setting the 'is_completed' field
+    const isCompleted = status === "done" || status === "deployed";
+
+    // Update task status and set 'is_completed' if status is 'done' or 'deployed'
+    const tasksCollection = myDB.collection("tasks");
+    const result = await tasksCollection.updateOne(
+      { _id: new ObjectId(task_id) },
+      {
+        $set: {
+          status,
+          is_completed: isCompleted, // set is_completed field based on status
+        },
+      }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Task not found with the provided task ID",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Task status updated successfully",
+      updatedTask: { task_id, status, is_completed: isCompleted },
+    });
+  } catch (error) {
+    console.error("Error updating task status:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update task status",
+    });
+  }
+}
+
+module.exports = { createTask, getTasksByUserId, updateTaskStatus };

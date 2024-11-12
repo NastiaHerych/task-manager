@@ -20,4 +20,8 @@ export class TasksService {
       })
     );
   }
+
+  updateTaskStatus(taskId: string, status: string): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/${taskId}/status`, { status });
+  }
 }
