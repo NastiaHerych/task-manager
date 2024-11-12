@@ -1,0 +1,34 @@
+<div class="flex flex-col gap-2 bg-navy py-4 px-5 rounded-lg text-lg">
+  <div *ngFor="let project of tasks" class="flex flex-col">
+    <div class="flex items-center justify-between">
+      <span class="text-white">{{ project.project_info.name }}</span>
+      <button (click)="toggleTasks(project.project_id)" class="text-white">
+        <i
+          class="fas fa-chevron-down"
+          [ngClass]="{
+            'rotate-180': expandedProjectIds.has(project.project_id)
+          }"
+        ></i>
+      </button>
+    </div>
+
+    <!-- Expandable task list -->
+    <div
+      *ngIf="expandedProjectIds.has(project.project_id)"
+      class="pl-5 text-base"
+    >
+      <ul class="text-white space-y-1">
+        <li>{{ "navbar.taskTypes.allTasks" | translate }}</li>
+        <li>{{ "navbar.taskTypes.importantTasks" | translate }}</li>
+        <li>{{ "navbar.taskTypes.completedTasks" | translate }}</li>
+        <li>{{ "navbar.taskTypes.incompletedTasks" | translate }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mt-4 text-white">
+    <div>{{ "navbar.settings" | translate }}</div>
+    <div>{{ "navbar.userInfo" | translate }}</div>
+    <div>{{ "navbar.support" | translate }}</div>
+  </div>
+</div>

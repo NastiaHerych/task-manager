@@ -15,7 +15,7 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   login(credentials: CustomerDataModel): Observable<LoginResponseModel> {
-    return this.http.post(`${this.baseUrl}/api/login`, credentials).pipe(
+    return this.http.post(`${this.baseUrl}/api/auth/login`, credentials).pipe(
       tap((response: any) => {
         if (response.success) {
           sessionStorage.setItem(StorageKeyEnum.JWT, response.token); // Save the JWT token
@@ -30,7 +30,7 @@ export class LoginService {
   }
 
   getUserDataByToken(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/api/user`).pipe(
+    return this.http.get<any>(`${this.baseUrl}/api/users/user`).pipe(
       tap((response) => {
         if (response.success) {
           this.customerData$.next(response.userInfo); // Update customer data

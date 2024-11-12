@@ -6,8 +6,8 @@
   <div class="flex items-center gap-4">
     <i class="fa-solid fa-user-large text-white text-3xl"></i>
     <p class="flex flex-col text-white">
-      <span class="font-semibold">{{ customerData.username }}</span>
-      <span class="text-right text-beige text-sm">{{ customerData.role }}</span>
+      <span class="font-semibold">{{ customerData?.username }}</span>
+      <span class="text-right text-beige text-sm">{{ customerData?.role }}</span>
     </p>
     <p class="text-white text-4xl self-baseline">|</p>
     <button type="button" (click)="logout()">

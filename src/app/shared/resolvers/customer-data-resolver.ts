@@ -14,6 +14,7 @@ export const CustomerDataResolver: ResolveFn<any> = () => {
       map((response) => {
         if (response.success) {
           loginService.customerData$.next(response.userInfo);
+          console.log('r', response.userInfo);
           return response.userInfo;
         }
         return null;

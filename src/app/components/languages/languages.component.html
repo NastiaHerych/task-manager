@@ -1,7 +1,7 @@
-<div class="flex flex-col gap-2 bg-navy w-fit py-4 px-5 rounded-lg">
+<div class="flex flex-col gap-2 bg-navy py-4 px-5 rounded-lg">
   <p class="text-white text-lg">{{ "language" | translate }}</p>
   <select
-    class="p-2 w-40 bg-navy-light text-navy rounded-md focus:ring-indigo-200 outline-none"
+    class="p-2 w-full bg-navy-light text-navy rounded-md focus:ring-indigo-200 outline-none"
     [(ngModel)]="selectedLanguage"
     (change)="changeLanguage(selectedLanguage)"
   >

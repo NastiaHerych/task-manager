@@ -18,6 +18,9 @@ import { LanguagesComponent } from './components/languages/languages.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { RouterModule } from '@angular/router';
+import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
+import { MainContentComponent } from './components/main-content/main-content.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new AppTranslateLoader(http);
@@ -31,6 +34,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoginPageComponent,
     LanguagesComponent,
     HeaderComponent,
+    NavigationBarComponent,
+    MainContentComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +44,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    DragDropModule, 
     RouterModule,
     TranslateModule.forRoot({
       loader: {
