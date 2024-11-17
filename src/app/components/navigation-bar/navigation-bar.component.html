@@ -22,7 +22,7 @@
       *ngIf="expandedProjectIds.has(project.project_id)"
       class="text-base text-right"
     >
-      <div class="text-beige">
+      <div class="text-beige flex flex-col items-end">
         <button
           [ngClass]="{ 'font-bold text-shadow': selectedTaskType === 'all' }"
           (click)="selectTaskType(project.project_id, 'all')"
