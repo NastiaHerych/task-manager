@@ -21,6 +21,13 @@ import { RouterModule } from '@angular/router';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { MainContentComponent } from './components/main-content/main-content.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MainContentAdminComponent } from './components/main-content-admin/main-content-admin.component';
+import { AddTaskModalComponent } from './components/modals/add-task-modal/add-task-modal.component';
+import { AddProjectModalComponent } from './components/modals/add-project-modal/add-project-modal.component';
+import { ImportPageComponent } from './components/pages/import-page/import-page.component';
+import { HelpPageComponent } from './components/pages/help-page/help-page.component';
+import { ManageProjectsPageComponent } from './components/pages/manage-projects-page/manage-projects-page.component';
+import { ProjectTableComponent } from './components/tables/project-table/project-table.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new AppTranslateLoader(http);
@@ -36,6 +43,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     HeaderComponent,
     NavigationBarComponent,
     MainContentComponent,
+    MainContentAdminComponent,
+    AddTaskModalComponent,
+    AddProjectModalComponent,
+    ImportPageComponent,
+    HelpPageComponent,
+    ManageProjectsPageComponent,
+    ProjectTableComponent,
   ],
   imports: [
     BrowserModule,
