@@ -57,22 +57,39 @@ export class MainContentComponent {
         this.customerData.role === UserRole.Developer
           ? this.developerStatuses
           : this.qaStatuses;
-
       this.tasksService
         .getTasksByProjects(this.customerData._id)
         .subscribe((value) => {
           this.tasks = value.tasks;
-          this.loadTasksForProject(this.tasks[0].project_id, 'all');
+          this.loadAllTasks(); // Load all tasks by default
         });
     });
   }
 
+  loadAllTasks() {
+    const allTasks = this.tasks?.flatMap((project) => project.tasks);
+    this.resetTaskList();
+    allTasks.forEach((task) => {
+      const status = task.status as keyof typeof this.tasksList;
+      if (this.tasksList[status]) {
+        this.tasksList[status].push(task);
+      }
+    });
+    this.displayedTasks = allTasks;
+  }
+
   loadTasksForProject(projectId: string, taskType: string) {
+    if (projectId === 'all') {
+      this.loadAllTasks();
+      return;
+    }
+
     const selectedProject = this.tasks.find(
       (project) => project.project_id === projectId
     );
     if (!selectedProject) return;
 
+    console.log('tut', selectedProject);
     const tasks = selectedProject.tasks.filter((task) => {
       switch (taskType) {
         case 'important':
@@ -93,6 +110,7 @@ export class MainContentComponent {
         this.tasksList[status].push(task);
       }
     });
+    this.displayedTasks = tasks;
   }
 
   private resetTaskList() {
@@ -140,5 +158,44 @@ export class MainContentComponent {
 
   trackByFn(index: number, item: any): any {
     return item;
+  }
+
+  exportDisplayedTasks() {
+    console.log(this.displayedTasks);
+
+    const data = this.displayedTasks.map((task) => ({
+      Title: task.title,
+      Description: task.description,
+      Status: task.status,
+      Important: task.is_important ? 'Yes' : 'No',
+      Completed: task.is_completed ? 'Yes' : 'No',
+      StoryPoints: task.story_points,
+      CreatedAt: task.created_at,
+    }));
+
+    const csvContent = this.convertToCSV(data);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'tasks_export.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  private convertToCSV(data: any[]): string {
+    console.log(data);
+
+    const headers = Object.keys(data[0]).join(',');
+    const rows = data.map((row) =>
+      Object.values(row)
+        .map((value) =>
+          typeof value === 'string' ? `"${value.replace(/"/g, '""')}"` : value
+        )
+        .join(',')
+    );
+    return [headers, ...rows].join('\r\n');
   }
 }

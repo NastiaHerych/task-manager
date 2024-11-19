@@ -70,11 +70,11 @@ async function getTasksByUserId(req, res) {
   try {
     const { user_id } = req.params; // Extract user_id from request parameters
 
-    // Find all tasks that have either dev_id or qa_id matching the user_id
+    // Find all tasks that have either dev_id, qa_id, or created_by matching the user_id
     const tasksCollection = myDB.collection("tasks");
     const projectsCollection = myDB.collection("projects");
+    const usersCollection = myDB.collection("users");
 
-    // Use aggregate to find tasks and join with project details
     const tasks = await tasksCollection
       .aggregate([
         {
@@ -82,6 +82,7 @@ async function getTasksByUserId(req, res) {
             $or: [
               { dev_id: new ObjectId(user_id) },
               { qa_id: new ObjectId(user_id) },
+              { created_by: new ObjectId(user_id) }, // Check for created_by field
             ],
           },
         },
@@ -95,6 +96,38 @@ async function getTasksByUserId(req, res) {
         },
         {
           $unwind: "$project_info", // Flatten the project_info array
+        },
+        {
+          $lookup: {
+            from: "users", // Join with the 'users' collection
+            let: {
+              dev_id: "$dev_id",
+              qa_id: "$qa_id",
+              created_by: "$created_by",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $or: [
+                      { $eq: ["$_id", "$$dev_id"] },
+                      { $eq: ["$_id", "$$qa_id"] },
+                      { $eq: ["$_id", "$$created_by"] },
+                    ],
+                  },
+                },
+              },
+              {
+                $project: {
+                  _id: 1,
+                  username: 1,
+                  email: 1,
+                  role: 1,
+                },
+              },
+            ],
+            as: "user_info",
+          },
         },
         {
           $project: {
@@ -116,6 +149,7 @@ async function getTasksByUserId(req, res) {
               created_by: 1,
               created_at: 1,
             },
+            user_info: 1, // Include user info in the final projection
           },
         },
       ])
@@ -150,6 +184,7 @@ async function getTasksByUserId(req, res) {
     res.status(500).json({ success: false, message: "Failed to fetch tasks" });
   }
 }
+
 
 // Function to update task status by task ID
 async function updateTaskStatus(req, res) {

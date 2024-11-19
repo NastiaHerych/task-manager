@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Route } from 'src/app/shared/enums/route.enum';
-import { StorageKeyEnum } from 'src/app/shared/enums/storage-key.enum';
+import { UserRole } from 'src/app/shared/enums/user-role.enum';
 import { LoginService } from 'src/app/shared/services/authorization/login.service';
 
 @Component({
@@ -17,7 +17,6 @@ export class LoginPageComponent {
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
-    private route: ActivatedRoute,
     private router: Router
   ) {
     this.loginForm = this.fb.group({
@@ -30,17 +29,13 @@ export class LoginPageComponent {
     this.submitted = true;
     if (this.loginForm.valid) {
       this.loginService.login(this.loginForm.value).subscribe((value) => {
-        console.log('Login Successful');
-        this.router
-          .navigate(['../' + Route.PROJECTS], {
-            relativeTo: this.route,
-          })
-          .then(() => {
-            sessionStorage.setItem(
-              StorageKeyEnum.CUSTOMER_DATA,
-              JSON.stringify(value)
-            );
-          }); // Navigate to protected page on success
+        if (value) {
+          if ((value.userInfo.role = UserRole.ProjectManager)) {
+            this.router.navigate(['./' + Route.PROJECTS_ADMIN]);
+          } else {
+            this.router.navigate(['./' + Route.PROJECTS]);
+          }
+        }
       });
     }
   }

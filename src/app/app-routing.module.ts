@@ -6,6 +6,7 @@ import { HomePageComponent } from './components/pages/home-page/home-page.compon
 import { AuthGuard } from './shared/guards/auth.guard';
 import { Route } from './shared/enums/route.enum';
 import { CustomerDataResolver } from './shared/resolvers/customer-data-resolver';
+import { ManageProjectsPageComponent } from './components/pages/manage-projects-page/manage-projects-page.component';
 
 const routes: Routes = [
   { path: Route.LOGIN, component: LoginPageComponent },
@@ -13,6 +14,12 @@ const routes: Routes = [
   {
     path: Route.PROJECTS,
     component: HomePageComponent,
+    canActivate: [AuthGuard],
+    resolve: { customerData: CustomerDataResolver },
+  },
+  {
+    path: Route.PROJECTS_ADMIN,
+    component: ManageProjectsPageComponent,
     canActivate: [AuthGuard],
     resolve: { customerData: CustomerDataResolver },
   },

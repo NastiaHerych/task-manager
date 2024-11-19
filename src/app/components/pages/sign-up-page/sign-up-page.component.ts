@@ -44,7 +44,6 @@ export class SignUpPageComponent {
     if (this.signUpForm.valid) {
       this.signUpService.signUp(this.signUpForm.value).subscribe({
         next: (response) => {
-          console.log('Sign-Up Successful:', response);
           this.router
             .navigate([Route.LOGIN], {
               relativeTo: this.route,

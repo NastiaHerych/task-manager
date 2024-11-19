@@ -1,11 +1,16 @@
 <div class="flex flex-col gap-2 bg-navy py-4 px-5 rounded-lg text-lg">
+  <div>
+    <span class="text-white font-semibold" (click)="selectAllTasks()">
+      All tasks
+    </span>
+  </div>
   <div *ngFor="let project of tasks" class="flex flex-col">
     <div class="flex items-center justify-between">
       <span
         class="text-white font-semibold"
         (click)="toggleTasks(project.project_id)"
       >
-        {{ project.project_info.name }}
+        {{ project?.project_info?.name || project?.name }}
       </span>
       <button (click)="toggleTasks(project.project_id)" class="text-white">
         <i
@@ -56,4 +61,12 @@
       </div>
     </div>
   </div>
+  <button
+    *ngIf="customerData.role === UserRole.ProjectManager"
+    type="button"
+    class="text-white rounded-md w-fit font-semibold cursor-pointer"
+  >
+    <i class="fa-solid fa-circle-plus text-white pr-1"></i>
+    Add project
+  </button>
 </div>

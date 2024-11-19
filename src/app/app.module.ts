@@ -21,7 +21,6 @@ import { RouterModule } from '@angular/router';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { MainContentComponent } from './components/main-content/main-content.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MainContentAdminComponent } from './components/main-content-admin/main-content-admin.component';
 import { AddTaskModalComponent } from './components/modals/add-task-modal/add-task-modal.component';
 import { AddProjectModalComponent } from './components/modals/add-project-modal/add-project-modal.component';
 import { ImportPageComponent } from './components/pages/import-page/import-page.component';
@@ -43,7 +42,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     HeaderComponent,
     NavigationBarComponent,
     MainContentComponent,
-    MainContentAdminComponent,
     AddTaskModalComponent,
     AddProjectModalComponent,
     ImportPageComponent,
@@ -58,7 +56,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    DragDropModule, 
+    DragDropModule,
     RouterModule,
     TranslateModule.forRoot({
       loader: {

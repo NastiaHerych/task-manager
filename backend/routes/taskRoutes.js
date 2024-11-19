@@ -7,10 +7,8 @@ const {
 
 const router = express.Router();
 
-// Create a new task
-router.post("/create", createTask);
-// Get tasks by user_id, structured by projects
-router.get("/user/:user_id", getTasksByUserId);
+router.post("/create", createTask); // Create a new task
+router.get("/user/:user_id", getTasksByUserId); // Get tasks by user_id, structured by projects
 router.patch("/:task_id/status", updateTaskStatus);
 
 module.exports = router;

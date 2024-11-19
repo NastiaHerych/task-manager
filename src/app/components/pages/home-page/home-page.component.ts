@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { CustomerDataModel } from 'src/app/shared/models/customer-data.model';
 import { LoginService } from 'src/app/shared/services/authorization/login.service';
 import { TasksService } from 'src/app/shared/services/tasks.service';
@@ -16,7 +15,6 @@ export class HomePageComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private tasksService: TasksService,
-    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -26,7 +24,6 @@ export class HomePageComponent implements OnInit {
         .getTasksByProjects(this.customerData._id)
         .subscribe((value) => {
           this.tasks = value.tasks;
-          console.log(this.tasks);
         });
     });
   }

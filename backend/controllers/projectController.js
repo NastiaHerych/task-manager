@@ -28,6 +28,33 @@ async function addProject(req, res) {
   }
 }
 
+async function getAllProjectsForPM(req, res) {
+  try {
+    const { user_id } = req.params; // Extract user_id from request parameters
+    const projectsCollection = myDB.collection("projects");
+
+    // Fetch projects created by the specified user
+    const projects = await projectsCollection
+      .find({ created_by: new ObjectId(user_id) })
+      .toArray();
+
+    // Check if projects exist
+    if (projects.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No projects found for this user" });
+    }
+
+    res.status(200).json({ success: true, projects });
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to fetch projects" });
+  }
+}
+
+
 // New function to get all projects for a specific user by user_id
 async function getUserProjects(req, res) {
   try {
@@ -61,4 +88,4 @@ async function getUserProjects(req, res) {
   }
 }
 
-module.exports = { addProject, getUserProjects };
+module.exports = { addProject, getAllProjectsForPM, getUserProjects };

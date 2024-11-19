@@ -1,305 +1,388 @@
-<div
-  class="flex gap-1 bg-navy py-4 px-5 rounded-lg"
-  *ngIf="customerData.role === UserRole.Developer"
->
-  <div class="example-container gap-3 w-1/5">
-    <h2 class="text-center text-white text-xl font-semibold">To do</h2>
-    <div
-      cdkDropList
-      #todoList="cdkDropList"
-      [cdkDropListData]="tasksList['new']"
-      [cdkDropListConnectedTo]="[
-        inProgressList,
-        inReviewList,
-        blockedList,
-        doneList
-      ]"
-      (cdkDropListDropped)="dropWithNewStatus($event, 'new')"
-      class="example-list bg-beige"
+<div class="flex flex-col gap-3 bg-navy py-4 px-5 rounded-lg">
+  <div class="flex self-end gap-2">
+    <button
+      *ngIf="customerData.role === UserRole.ProjectManager"
+      type="button"
+      class="bg-brown text-white px-4 py-1.5 rounded-md w-fit font-semibold cursor-pointer"
     >
-      <div
-        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
-        [ngClass]="{
-          'bg-beige': !item.is_important,
-          'bg-red-300': item.is_important
-        }"
-        *ngFor="let item of tasksList['new']; trackBy: trackByFn"
-        cdkDrag
-      >
-        <p class="font-base font-semibold">{{ item.title }}</p>
-        <p class="text-navy">{{ item.description }}</p>
-        <p class="text-brown">ST: {{ item.story_points }}</p>
-      </div>
-    </div>
-  </div>
-  <div class="example-container gap-3 w-1/5">
-    <h2 class="text-center text-white text-xl font-semibold">In progress</h2>
-    <div
-      cdkDropList
-      #inProgressList="cdkDropList"
-      [cdkDropListData]="tasksList['in_progress']"
-      [cdkDropListConnectedTo]="[todoList, inReviewList, blockedList, doneList]"
-      (cdkDropListDropped)="dropWithNewStatus($event, 'in_progress')"
-      class="example-list bg-beige"
+      <i class="fa-solid fa-circle-plus text-white pr-1"></i>
+      Add task
+    </button>
+    <button
+      *ngIf="customerData.role === UserRole.ProjectManager"
+      type="button"
+      class="bg-beige text-black px-4 py-1.5 rounded-md w-fit font-semibold cursor-pointer"
     >
-      <div
-        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
-        [ngClass]="{
-          'bg-beige': !item.is_important,
-          'bg-red-300': item.is_important
-        }"
-        *ngFor="let item of tasksList['in_progress']; trackBy: trackByFn"
-        cdkDrag
-      >
-        <p class="font-base font-semibold">{{ item.title }}</p>
-        <p class="text-navy">{{ item.description }}</p>
-        <p class="text-brown">ST: {{ item.story_points }}</p>
-      </div>
-    </div>
-  </div>
-  <div class="example-container gap-3 w-1/5">
-    <h2 class="text-center text-white text-xl font-semibold">In review</h2>
-    <div
-      cdkDropList
-      #inReviewList="cdkDropList"
-      [cdkDropListData]="tasksList['in_review']"
-      [cdkDropListConnectedTo]="[
-        todoList,
-        inProgressList,
-        blockedList,
-        doneList
-      ]"
-      (cdkDropListDropped)="dropWithNewStatus($event, 'in_review')"
-      class="example-list bg-beige"
+      Import
+    </button>
+    <button
+      type="button"
+      class="bg-beige text-black px-4 py-1.5 rounded-md w-fit font-semibold cursor-pointer"
+      (click)="exportDisplayedTasks()"
     >
-      <div
-        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
-        [ngClass]="{
-          'bg-beige': !item.is_important,
-          'bg-red-300': item.is_important
-        }"
-        *ngFor="let item of tasksList['in_review']; trackBy: trackByFn"
-        cdkDrag
-      >
-        <p class="font-base font-semibold">{{ item.title }}</p>
-        <p class="text-navy">{{ item.description }}</p>
-        <p class="text-brown">ST: {{ item.story_points }}</p>
-      </div>
-    </div>
+      Export
+    </button>
   </div>
-  <div class="example-container gap-3 w-1/5">
-    <h2 class="text-center text-white text-xl font-semibold">Blocked</h2>
-    <div
-      cdkDropList
-      #blockedList="cdkDropList"
-      [cdkDropListData]="tasksList['blocked']"
-      [cdkDropListConnectedTo]="[
-        todoList,
-        inProgressList,
-        inReviewList,
-        doneList
-      ]"
-      (cdkDropListDropped)="dropWithNewStatus($event, 'blocked')"
-      class="example-list bg-beige"
-    >
-      <div
-        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
-        [ngClass]="{
-          'bg-beige': !item.is_important,
-          'bg-red-300': item.is_important
-        }"
-        *ngFor="let item of tasksList['blocked']; trackBy: trackByFn"
-        cdkDrag
-      >
-        <p class="font-base font-semibold">{{ item.title }}</p>
-        <p class="text-navy">{{ item.description }}</p>
-        <p class="text-brown">ST: {{ item.story_points }}</p>
-      </div>
-    </div>
-  </div>
-  <div class="example-container gap-3 w-1/5">
-    <h2 class="text-center text-white text-xl font-semibold">Done</h2>
-    <div
-      cdkDropList
-      #doneList="cdkDropList"
-      [cdkDropListData]="tasksList['done']"
-      [cdkDropListConnectedTo]="[
-        todoList,
-        inProgressList,
-        inReviewList,
-        blockedList
-      ]"
-      (cdkDropListDropped)="dropWithNewStatus($event, 'done')"
-      class="example-list bg-beige"
-    >
-      <div
-        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
-        [ngClass]="{
-          'bg-beige': !item.is_important,
-          'bg-red-300': item.is_important
-        }"
-        *ngFor="let item of tasksList['done']; trackBy: trackByFn"
-        cdkDrag
-      >
-        <p class="font-base font-semibold">{{ item.title }}</p>
-        <p class="text-navy">{{ item.description }}</p>
-        <p class="text-brown">ST: {{ item.story_points }}</p>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div
-  class="flex gap-1 bg-navy py-4 px-5 rounded-lg"
-  *ngIf="customerData.role === UserRole.QA"
->
-  <div class="example-container gap-3 w-1/5">
-    <h2 class="text-center text-white text-xl font-semibold">Ready for QA</h2>
-    <div
-      cdkDropList
-      #ready_for_qaList="cdkDropList"
-      [cdkDropListData]="tasksList['ready_for_qa']"
-      [cdkDropListConnectedTo]="[
-        in_qaList,
-        qa_passedList,
-        preprod_passedList,
-        deployedList
-      ]"
-      (cdkDropListDropped)="dropWithNewStatus($event, 'ready_for_qa')"
-      class="example-list bg-beige"
-    >
+  <div class="flex gap-1" *ngIf="customerData.role !== UserRole.QA">
+    <div class="example-container gap-3 w-1/5">
+      <h2 class="text-center text-white text-xl font-semibold">To do</h2>
       <div
-        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
-        [ngClass]="{
-          'bg-beige': !item.is_important,
-          'bg-red-300': item.is_important
-        }"
-        *ngFor="let item of tasksList['ready_for_qa']; trackBy: trackByFn"
-        cdkDrag
+        cdkDropList
+        #todoList="cdkDropList"
+        [cdkDropListData]="tasksList['new']"
+        [cdkDropListConnectedTo]="[
+          inProgressList,
+          inReviewList,
+          blockedList,
+          doneList
+        ]"
+        (cdkDropListDropped)="dropWithNewStatus($event, 'new')"
+        class="example-list bg-beige"
       >
-        <p class="font-base font-semibold">{{ item.title }}</p>
-        <p class="text-navy">{{ item.description }}</p>
-        <p class="text-brown">ST: {{ item.story_points }}</p>
+        <div
+          class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+          [ngClass]="{
+            'bg-beige': !item.is_important,
+            'bg-red-300': item.is_important
+          }"
+          *ngFor="let item of tasksList['new']; trackBy: trackByFn"
+          cdkDrag
+        >
+          <p class="font-base font-semibold">{{ item.title }}</p>
+          <p class="text-navy">{{ item.description }}</p>
+          <p class="text-brown">ST: {{ item.story_points }}</p>
+          <p
+            class="text-navy"
+            *ngIf="customerData.role === UserRole.ProjectManager"
+          >
+            Asignee: {{ item.user_info[0].username }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="example-container gap-3 w-1/5">
+      <h2 class="text-center text-white text-xl font-semibold">In progress</h2>
+      <div
+        cdkDropList
+        #inProgressList="cdkDropList"
+        [cdkDropListData]="tasksList['in_progress']"
+        [cdkDropListConnectedTo]="[
+          todoList,
+          inReviewList,
+          blockedList,
+          doneList
+        ]"
+        (cdkDropListDropped)="dropWithNewStatus($event, 'in_progress')"
+        class="example-list bg-beige"
+      >
+        <div
+          class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+          [ngClass]="{
+            'bg-beige': !item.is_important,
+            'bg-red-300': item.is_important
+          }"
+          *ngFor="let item of tasksList['in_progress']; trackBy: trackByFn"
+          cdkDrag
+        >
+          <p class="font-base font-semibold">{{ item.title }}</p>
+          <p class="text-navy">{{ item.description }}</p>
+          <p class="text-brown">ST: {{ item.story_points }}</p>
+          <p
+            class="text-navy"
+            *ngIf="customerData.role === UserRole.ProjectManager"
+          >
+            Asignee: {{ item.user_info[0].username }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="example-container gap-3 w-1/5">
+      <h2 class="text-center text-white text-xl font-semibold">In review</h2>
+      <div
+        cdkDropList
+        #inReviewList="cdkDropList"
+        [cdkDropListData]="tasksList['in_review']"
+        [cdkDropListConnectedTo]="[
+          todoList,
+          inProgressList,
+          blockedList,
+          doneList
+        ]"
+        (cdkDropListDropped)="dropWithNewStatus($event, 'in_review')"
+        class="example-list bg-beige"
+      >
+        <div
+          class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+          [ngClass]="{
+            'bg-beige': !item.is_important,
+            'bg-red-300': item.is_important
+          }"
+          *ngFor="let item of tasksList['in_review']; trackBy: trackByFn"
+          cdkDrag
+        >
+          <p class="font-base font-semibold">{{ item.title }}</p>
+          <p class="text-navy">{{ item.description }}</p>
+          <p class="text-brown">ST: {{ item.story_points }}</p>
+          <p
+            class="text-navy"
+            *ngIf="customerData.role === UserRole.ProjectManager"
+          >
+            Asignee: {{ item.user_info[0].username }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="example-container gap-3 w-1/5">
+      <h2 class="text-center text-white text-xl font-semibold">Blocked</h2>
+      <div
+        cdkDropList
+        #blockedList="cdkDropList"
+        [cdkDropListData]="tasksList['blocked']"
+        [cdkDropListConnectedTo]="[
+          todoList,
+          inProgressList,
+          inReviewList,
+          doneList
+        ]"
+        (cdkDropListDropped)="dropWithNewStatus($event, 'blocked')"
+        class="example-list bg-beige"
+      >
+        <div
+          class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+          [ngClass]="{
+            'bg-beige': !item.is_important,
+            'bg-red-300': item.is_important
+          }"
+          *ngFor="let item of tasksList['blocked']; trackBy: trackByFn"
+          cdkDrag
+        >
+          <p class="font-base font-semibold">{{ item.title }}</p>
+          <p class="text-navy">{{ item.description }}</p>
+          <p class="text-brown">ST: {{ item.story_points }}</p>
+          <p
+            class="text-navy"
+            *ngIf="customerData.role === UserRole.ProjectManager"
+          >
+            Asignee: {{ item.user_info[0].username }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="example-container gap-3 w-1/5">
+      <h2 class="text-center text-white text-xl font-semibold">Done</h2>
+      <div
+        cdkDropList
+        #doneList="cdkDropList"
+        [cdkDropListData]="tasksList['done']"
+        [cdkDropListConnectedTo]="[
+          todoList,
+          inProgressList,
+          inReviewList,
+          blockedList
+        ]"
+        (cdkDropListDropped)="dropWithNewStatus($event, 'done')"
+        class="example-list bg-beige"
+      >
+        <div
+          class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+          [ngClass]="{
+            'bg-beige': !item.is_important,
+            'bg-red-300': item.is_important
+          }"
+          *ngFor="let item of tasksList['done']; trackBy: trackByFn"
+          cdkDrag
+        >
+          <p class="font-base font-semibold">{{ item.title }}</p>
+          <p class="text-navy">{{ item.description }}</p>
+          <p class="text-brown">ST: {{ item.story_points }}</p>
+          <p
+            class="text-navy"
+            *ngIf="customerData.role === UserRole.ProjectManager"
+          >
+            Asignee: {{ item.user_info[0].username }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
-  <div class="example-container gap-3 w-1/5">
-    <h2 class="text-center text-white text-xl font-semibold">In QA</h2>
-    <div
-      cdkDropList
-      #in_qaList="cdkDropList"
-      [cdkDropListData]="tasksList['in_qa']"
-      [cdkDropListConnectedTo]="[
-        ready_for_qaList,
-        qa_passedList,
-        preprod_passedList,
-        deployedList
-      ]"
-      (cdkDropListDropped)="dropWithNewStatus($event, 'in_qa')"
-      class="example-list bg-beige"
-    >
+
+  <div class="flex gap-1" *ngIf="customerData.role !== UserRole.Developer">
+    <div class="example-container gap-3 w-1/5">
+      <h2 class="text-center text-white text-xl font-semibold">Ready for QA</h2>
       <div
-        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
-        [ngClass]="{
-          'bg-beige': !item.is_important,
-          'bg-red-300': item.is_important
-        }"
-        *ngFor="let item of tasksList['in_qa']; trackBy: trackByFn"
-        cdkDrag
+        cdkDropList
+        #ready_for_qaList="cdkDropList"
+        [cdkDropListData]="tasksList['ready_for_qa']"
+        [cdkDropListConnectedTo]="[
+          in_qaList,
+          qa_passedList,
+          preprod_passedList,
+          deployedList
+        ]"
+        (cdkDropListDropped)="dropWithNewStatus($event, 'ready_for_qa')"
+        class="example-list bg-beige"
       >
-        <p class="font-base font-semibold">{{ item.title }}</p>
-        <p class="text-navy">{{ item.description }}</p>
-        <p class="text-brown">ST: {{ item.story_points }}</p>
+        <div
+          class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+          [ngClass]="{
+            'bg-beige': !item.is_important,
+            'bg-red-300': item.is_important
+          }"
+          *ngFor="let item of tasksList['ready_for_qa']; trackBy: trackByFn"
+          cdkDrag
+        >
+          <p class="font-base font-semibold">{{ item.title }}</p>
+          <p class="text-navy">{{ item.description }}</p>
+          <p
+            class="text-navy"
+            *ngIf="customerData.role === UserRole.ProjectManager"
+          >
+            Asignee: {{ item.user_info[1].username }}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="example-container gap-3 w-1/5">
-    <h2 class="text-center text-white text-xl font-semibold">QA Passed</h2>
-    <div
-      cdkDropList
-      #qa_passedList="cdkDropList"
-      [cdkDropListData]="tasksList['qa_passed']"
-      [cdkDropListConnectedTo]="[
-        ready_for_qaList,
-        in_qaList,
-        preprod_passedList,
-        deployedList
-      ]"
-      (cdkDropListDropped)="dropWithNewStatus($event, 'qa_passed')"
-      class="example-list bg-beige"
-    >
+    <div class="example-container gap-3 w-1/5">
+      <h2 class="text-center text-white text-xl font-semibold">In QA</h2>
       <div
-        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
-        [ngClass]="{
-          'bg-beige': !item.is_important,
-          'bg-red-300': item.is_important
-        }"
-        *ngFor="let item of tasksList['qa_passed']; trackBy: trackByFn"
-        cdkDrag
+        cdkDropList
+        #in_qaList="cdkDropList"
+        [cdkDropListData]="tasksList['in_qa']"
+        [cdkDropListConnectedTo]="[
+          ready_for_qaList,
+          qa_passedList,
+          preprod_passedList,
+          deployedList
+        ]"
+        (cdkDropListDropped)="dropWithNewStatus($event, 'in_qa')"
+        class="example-list bg-beige"
       >
-        <p class="font-base font-semibold">{{ item.title }}</p>
-        <p class="text-navy">{{ item.description }}</p>
-        <p class="text-brown">ST: {{ item.story_points }}</p>
+        <div
+          class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+          [ngClass]="{
+            'bg-beige': !item.is_important,
+            'bg-red-300': item.is_important
+          }"
+          *ngFor="let item of tasksList['in_qa']; trackBy: trackByFn"
+          cdkDrag
+        >
+          <p class="font-base font-semibold">{{ item.title }}</p>
+          <p class="text-navy">{{ item.description }}</p>
+          <p
+            class="text-navy"
+            *ngIf="customerData.role === UserRole.ProjectManager"
+          >
+            Asignee: {{ item.user_info[1].username }}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="example-container gap-3 w-1/5">
-    <h2 class="text-center text-white text-xl font-semibold">Preprod Passed</h2>
-    <div
-      cdkDropList
-      #preprod_passedList="cdkDropList"
-      [cdkDropListData]="tasksList['preprod_passed']"
-      [cdkDropListConnectedTo]="[
-        ready_for_qaList,
-        in_qaList,
-        qa_passedList,
-        deployedList
-      ]"
-      (cdkDropListDropped)="dropWithNewStatus($event, 'preprod_passed')"
-      class="example-list bg-beige"
-    >
+    <div class="example-container gap-3 w-1/5">
+      <h2 class="text-center text-white text-xl font-semibold">QA Passed</h2>
       <div
-        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
-        [ngClass]="{
-          'bg-beige': !item.is_important,
-          'bg-red-300': item.is_important
-        }"
-        *ngFor="let item of tasksList['preprod_passed']; trackBy: trackByFn"
-        cdkDrag
+        cdkDropList
+        #qa_passedList="cdkDropList"
+        [cdkDropListData]="tasksList['qa_passed']"
+        [cdkDropListConnectedTo]="[
+          ready_for_qaList,
+          in_qaList,
+          preprod_passedList,
+          deployedList
+        ]"
+        (cdkDropListDropped)="dropWithNewStatus($event, 'qa_passed')"
+        class="example-list bg-beige"
       >
-        <p class="font-base font-semibold">{{ item.title }}</p>
-        <p class="text-navy">{{ item.description }}</p>
-        <p class="text-brown">ST: {{ item.story_points }}</p>
+        <div
+          class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+          [ngClass]="{
+            'bg-beige': !item.is_important,
+            'bg-red-300': item.is_important
+          }"
+          *ngFor="let item of tasksList['qa_passed']; trackBy: trackByFn"
+          cdkDrag
+        >
+          <p class="font-base font-semibold">{{ item.title }}</p>
+          <p class="text-navy">{{ item.description }}</p>
+          <p
+            class="text-navy"
+            *ngIf="customerData.role === UserRole.ProjectManager"
+          >
+            Asignee: {{ item.user_info[1].username }}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="example-container gap-3 w-1/5">
-    <h2 class="text-center text-white text-xl font-semibold">Done</h2>
-    <div
-      cdkDropList
-      #deployedList="cdkDropList"
-      [cdkDropListData]="tasksList['deployed']"
-      [cdkDropListConnectedTo]="[
-        ready_for_qaList,
-        in_qaList,
-        qa_passedList,
-        preprod_passedList
-      ]"
-      (cdkDropListDropped)="dropWithNewStatus($event, 'deployed')"
-      class="example-list bg-beige"
-    >
+    <div class="example-container gap-3 w-1/5">
+      <h2 class="text-center text-white text-xl font-semibold">
+        Preprod Passed
+      </h2>
       <div
-        class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
-        [ngClass]="{
-          'bg-beige': !item.is_important,
-          'bg-red-300': item.is_important
-        }"
-        *ngFor="let item of tasksList['deployed']; trackBy: trackByFn"
-        cdkDrag
+        cdkDropList
+        #preprod_passedList="cdkDropList"
+        [cdkDropListData]="tasksList['preprod_passed']"
+        [cdkDropListConnectedTo]="[
+          ready_for_qaList,
+          in_qaList,
+          qa_passedList,
+          deployedList
+        ]"
+        (cdkDropListDropped)="dropWithNewStatus($event, 'preprod_passed')"
+        class="example-list bg-beige"
       >
-        <p class="font-base font-semibold">{{ item.title }}</p>
-        <p class="text-navy">{{ item.description }}</p>
-        <p class="text-brown">ST: {{ item.story_points }}</p>
+        <div
+          class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+          [ngClass]="{
+            'bg-beige': !item.is_important,
+            'bg-red-300': item.is_important
+          }"
+          *ngFor="let item of tasksList['preprod_passed']; trackBy: trackByFn"
+          cdkDrag
+        >
+          <p class="font-base font-semibold">{{ item.title }}</p>
+          <p class="text-navy">{{ item.description }}</p>
+          <p
+            class="text-navy"
+            *ngIf="customerData.role === UserRole.ProjectManager"
+          >
+            Asignee: {{ item.user_info[1].username }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="example-container gap-3 w-1/5">
+      <h2 class="text-center text-white text-xl font-semibold">Done</h2>
+      <div
+        cdkDropList
+        #deployedList="cdkDropList"
+        [cdkDropListData]="tasksList['deployed']"
+        [cdkDropListConnectedTo]="[
+          ready_for_qaList,
+          in_qaList,
+          qa_passedList,
+          preprod_passedList
+        ]"
+        (cdkDropListDropped)="dropWithNewStatus($event, 'deployed')"
+        class="example-list bg-beige"
+      >
+        <div
+          class="example-box bg-beige border-b border-b-navy flex flex-col text-sm"
+          [ngClass]="{
+            'bg-beige': !item.is_important,
+            'bg-red-300': item.is_important
+          }"
+          *ngFor="let item of tasksList['deployed']; trackBy: trackByFn"
+          cdkDrag
+        >
+          <p class="font-base font-semibold">{{ item.title }}</p>
+          <p class="text-navy">{{ item.description }}</p>
+          <p
+            class="text-navy"
+            *ngIf="customerData.role === UserRole.ProjectManager"
+          >
+            Asignee: {{ item.user_info[1].username }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
