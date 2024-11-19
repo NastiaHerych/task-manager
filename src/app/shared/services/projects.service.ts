@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class projectsService {
+export class ProjectsService {
   private baseUrl = 'http://localhost:3000/api/projects';
   projects$ = new BehaviorSubject<any | null>(null);
 
@@ -19,5 +19,12 @@ export class projectsService {
         }
       })
     );
+  }
+
+  addProject(projectData: {
+    name: string;
+    created_by: string;
+  }): Observable<any> {
+    return this.http.post(`${this.baseUrl}/add`, projectData);
   }
 }

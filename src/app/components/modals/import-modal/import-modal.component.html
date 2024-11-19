@@ -1,0 +1,22 @@
+<!-- Import Modal -->
+<div class="modal-overlay">
+  <div class="modal-content p-4 flex flex-col gap-3">
+    <h2 class="text-xl font-semibold text-center w-full">Import Tasks</h2>
+    <input type="file" (change)="onFileSelected($event)" accept=".csv, .xlsx" />
+    <div class="flex justify-end space-x-2 w-full">
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="px-4 py-2 bg-brown text-white rounded-md">
+        Cancel
+      </button>
+      <button
+        type="button"
+        (click)="importTasks()"
+        class="px-4 py-2 bg-beige text-chrome rounded-md"
+        [disabled]="!fileSelected">
+        Import
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerDataModel } from 'src/app/shared/models/customer-data.model';
 import { LoginService } from 'src/app/shared/services/authorization/login.service';
-import { projectsService } from 'src/app/shared/services/projects.service';
 import { TasksService } from 'src/app/shared/services/tasks.service';
 
 @Component({
@@ -16,7 +15,6 @@ export class ManageProjectsPageComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private projectsService: projectsService,
     private tasksService: TasksService
   ) {}
 
@@ -29,11 +27,5 @@ export class ManageProjectsPageComponent implements OnInit {
       .subscribe((value) => {
         this.tasks = value.tasks;
       });
-    // this.projectsService
-    //   .getAllProjects(this.customerData._id)
-    //   .subscribe((value) => {
-    //     this.projects = value.projects;
-    //     console.log(this.projects);
-    //   });
   }
 }

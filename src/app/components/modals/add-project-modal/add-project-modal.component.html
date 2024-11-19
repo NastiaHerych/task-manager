@@ -1,1 +1,36 @@
-<p>add-project-modal works!</p>
+<div class="p-4 flex flex-col gap-3">
+  <h2 class="text-xl font-semibold text-center w-full">Add Project</h2>
+  <form
+    [formGroup]="projectForm"
+    class="w-full flex flex-col items-center space-y-4"
+  >
+    <div class="flex flex-col gap-2 w-full">
+      <label for="name" class="block text-sm font-medium text-chrome"
+        >Project Name</label
+      >
+      <input
+        id="name"
+        formControlName="name"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+        type="text"
+      />
+    </div>
+    <div class="flex justify-end space-x-2 w-full">
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="px-4 py-2 bg-brown text-white rounded-md"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        (click)="onAdd()"
+        [disabled]="projectForm.invalid"
+        class="px-4 py-2 bg-beige text-chrome rounded-md"
+      >
+        Add
+      </button>
+    </div>
+  </form>
+</div>

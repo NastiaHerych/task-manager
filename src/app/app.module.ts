@@ -27,6 +27,12 @@ import { ImportPageComponent } from './components/pages/import-page/import-page.
 import { HelpPageComponent } from './components/pages/help-page/help-page.component';
 import { ManageProjectsPageComponent } from './components/pages/manage-projects-page/manage-projects-page.component';
 import { ProjectTableComponent } from './components/tables/project-table/project-table.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { ImportModalComponent } from './components/modals/import-modal/import-modal.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new AppTranslateLoader(http);
@@ -48,6 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HelpPageComponent,
     ManageProjectsPageComponent,
     ProjectTableComponent,
+    ImportModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +65,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     DragDropModule,
     RouterModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    NgxSpinnerModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

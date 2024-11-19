@@ -65,6 +65,7 @@
     *ngIf="customerData.role === UserRole.ProjectManager"
     type="button"
     class="text-white rounded-md w-fit font-semibold cursor-pointer"
+    (click)="openAddProjectDialog()"
   >
     <i class="fa-solid fa-circle-plus text-white pr-1"></i>
     Add project

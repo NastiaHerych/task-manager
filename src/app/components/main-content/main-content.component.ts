@@ -8,6 +8,8 @@ import { LoginService } from 'src/app/shared/services/authorization/login.servic
 import { TasksService } from 'src/app/shared/services/tasks.service';
 import { CustomerDataModel } from 'src/app/shared/models/customer-data.model';
 import { UserRole } from 'src/app/shared/enums/user-role.enum';
+import { ImportModalComponent } from '../modals/import-modal/import-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-main-content',
@@ -22,6 +24,7 @@ export class MainContentComponent {
 
   constructor(
     private loginService: LoginService,
+    private dialog: MatDialog,
     private tasksService: TasksService
   ) {}
 
@@ -83,13 +86,10 @@ export class MainContentComponent {
       this.loadAllTasks();
       return;
     }
-
     const selectedProject = this.tasks.find(
       (project) => project.project_id === projectId
     );
     if (!selectedProject) return;
-
-    console.log('tut', selectedProject);
     const tasks = selectedProject.tasks.filter((task) => {
       switch (taskType) {
         case 'important':
@@ -160,9 +160,16 @@ export class MainContentComponent {
     return item;
   }
 
-  exportDisplayedTasks() {
-    console.log(this.displayedTasks);
+  importTasks() {
+    const dialogRef = this.dialog.open(ImportModalComponent, {
+      width: '33%',
+      minWidth: '300px',
+      maxWidth: '550px',
+      panelClass: 'dialog-container',
+    });
+  }
 
+  exportDisplayedTasks() {
     const data = this.displayedTasks.map((task) => ({
       Title: task.title,
       Description: task.description,
@@ -171,8 +178,11 @@ export class MainContentComponent {
       Completed: task.is_completed ? 'Yes' : 'No',
       StoryPoints: task.story_points,
       CreatedAt: task.created_at,
+      ProjectId: task.project_id,
+      DevId: task.dev_id,
+      QaId: task.qa_id,
+      CreatedBy: task.created_by,
     }));
-
     const csvContent = this.convertToCSV(data);
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
@@ -186,8 +196,6 @@ export class MainContentComponent {
   }
 
   private convertToCSV(data: any[]): string {
-    console.log(data);
-
     const headers = Object.keys(data[0]).join(',');
     const rows = data.map((row) =>
       Object.values(row)

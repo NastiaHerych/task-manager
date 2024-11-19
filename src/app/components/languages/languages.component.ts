@@ -28,7 +28,6 @@ export class LanguagesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('c', this.customerData);
     if (this.customerData._id) {
       // Fetch user's language preference from the backend
       this.languageService.getUserLanguage(this.customerData._id).subscribe({
@@ -56,11 +55,7 @@ export class LanguagesComponent implements OnInit {
     if (this.customerData._id) {
       this.languageService
         .updateUserLanguage(this.customerData._id, language)
-        .subscribe({
-          next: () => console.log('Language updated successfully in backend'),
-          error: (err) =>
-            console.error('Failed to update language in backend', err),
-        });
+        .subscribe();
     }
   }
 }

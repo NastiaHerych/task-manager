@@ -21,7 +21,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.loginService.customerData$.subscribe((value) => {
       this.customerData = value;
-      console.log(this.customerData);
     });
   }
 

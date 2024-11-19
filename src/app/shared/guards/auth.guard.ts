@@ -9,7 +9,6 @@ export const AuthGuard: CanActivateChildFn = () => {
   const route = inject(ActivatedRoute);
 
   if (authService.getToken()) {
-    console.log(authService.getToken());
     // If the token exists, allow access to the route
     return true;
   } else {
