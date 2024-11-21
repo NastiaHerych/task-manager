@@ -39,4 +39,9 @@ export class TasksService {
       }
     });
   }
+
+  // Create a new task
+  createTask(taskData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/create`, taskData);
+  }
 }

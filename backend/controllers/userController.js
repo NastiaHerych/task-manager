@@ -31,6 +31,29 @@ async function getUser(req, res) {
   }
 }
 
+async function getUsersByRole(req, res) {
+  try {
+    const { role } = req.query; // e.g., role=developer or role=qa
+    // Validate that role is provided
+    if (!role) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Role is required" });
+    }
+    // Fetch users with the specified role from the users collection
+    const usersCollection = myDB.collection("users");
+    const users = await usersCollection.find({ role }).toArray();
+    res.status(200).json({
+      success: true,
+      message: "Users fetched successfully",
+      users,
+    });
+  } catch (error) {
+    console.error("Error fetching users by role:", error);
+    res.status(500).json({ success: false, message: "Failed to fetch users" });
+  }
+}
+
 async function updateUserLanguage(req, res) {
   try {
     const { userId, language } = req.body; // language can be "EN", "FR", "ES"
@@ -82,4 +105,4 @@ async function getUserLanguage(req, res) {
   }
 }
 
-module.exports = { getUser, updateUserLanguage, getUserLanguage };
+module.exports = { getUser, getUsersByRole, updateUserLanguage, getUserLanguage };

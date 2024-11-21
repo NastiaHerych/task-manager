@@ -66,15 +66,53 @@ async function createTask(req, res) {
   }
 }
 
+async function updateImportance(req, res) {
+  try {
+    const { task_id } = req.params;
+    const { is_important } = req.body;
+    // Validate the input
+    if (typeof is_important !== "boolean") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid value for is_important. Must be a boolean.",
+      });
+    }
+    // Access the tasks collection
+    const tasksCollection = myDB.collection("tasks");
+    // Update the is_important field
+    const result = await tasksCollection.updateOne(
+      { _id: new ObjectId(task_id) },
+      { $set: { is_important } }
+    );
+    // Check if the task was found and updated
+    if (result.matchedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Task not found with the provided task ID",
+      });
+    }
+    // Respond with success
+    res.status(200).json({
+      success: true,
+      message: "Task importance updated successfully",
+      updatedTask: { task_id, is_important },
+    });
+  } catch (error) {
+    console.error("Error updating task importance:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update task importance",
+    });
+  }
+}
+
 async function getTasksByUserId(req, res) {
   try {
     const { user_id } = req.params; // Extract user_id from request parameters
-
     // Find all tasks that have either dev_id, qa_id, or created_by matching the user_id
     const tasksCollection = myDB.collection("tasks");
     const projectsCollection = myDB.collection("projects");
     const usersCollection = myDB.collection("users");
-
     const tasks = await tasksCollection
       .aggregate([
         {
@@ -185,7 +223,6 @@ async function getTasksByUserId(req, res) {
   }
 }
 
-
 // Function to update task status by task ID
 async function updateTaskStatus(req, res) {
   try {
@@ -256,4 +293,9 @@ async function updateTaskStatus(req, res) {
   }
 }
 
-module.exports = { createTask, getTasksByUserId, updateTaskStatus };
+module.exports = {
+  createTask,
+  updateImportance,
+  getTasksByUserId,
+  updateTaskStatus,
+};

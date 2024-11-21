@@ -1,1 +1,117 @@
-<p>add-task-modal works!</p>
+<div class="p-4 flex flex-col gap-1.5">
+  <h2 class="text-xl font-semibold text-center w-full">Add Task</h2>
+  <form
+    [formGroup]="taskForm"
+    class="w-full flex flex-col items-center space-y-2"
+  >
+    <div class="flex flex-col gap-2 w-full">
+      <label for="title" class="block text-sm font-medium text-chrome"
+        >Title</label
+      >
+      <input
+        id="title"
+        formControlName="title"
+        class="mt-1 block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm"
+        type="text"
+      />
+    </div>
+
+    <div class="flex flex-col gap-2 w-full">
+      <label for="description" class="block text-sm font-medium text-chrome"
+        >Description</label
+      >
+      <textarea
+        id="description"
+        formControlName="description"
+        class="mt-1 block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm"
+      ></textarea>
+    </div>
+
+    <div class="flex flex-col gap-2 w-full">
+      <label for="story_points" class="block text-sm font-medium text-chrome"
+        >Story Points</label
+      >
+      <input
+        id="story_points"
+        formControlName="story_points"
+        class="mt-1 block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm"
+        type="number"
+      />
+    </div>
+
+    <div class="flex flex-col gap-2 w-full">
+      <label for="project_id" class="block text-sm font-medium text-chrome"
+        >Project</label
+      >
+      <select
+        id="project_id"
+        formControlName="project_id"
+        class="mt-1 block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm"
+      >
+        <option *ngFor="let project of projects" [value]="project._id">
+          {{ project.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="flex flex-col gap-2 w-full">
+      <label for="dev_id" class="block text-sm font-medium text-chrome"
+        >Developer Assignee</label
+      >
+      <select
+        id="dev_id"
+        formControlName="dev_id"
+        class="mt-1 block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm"
+      >
+        <option *ngFor="let dev of developers" [value]="dev._id">
+          {{ dev.username }}
+        </option>
+      </select>
+    </div>
+
+    <div class="flex flex-col gap-1 w-full">
+      <label for="qa_id" class="block text-sm font-medium text-chrome"
+        >QA Assignee</label
+      >
+      <select
+        id="qa_id"
+        formControlName="qa_id"
+        class="mt-1 block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm"
+      >
+        <option *ngFor="let qa of qaUsers" [value]="qa._id">
+          {{ qa.username }}
+        </option>
+      </select>
+    </div>
+
+    <div class="flex self-start gap-1">
+      <input
+        id="is_important"
+        formControlName="is_important"
+        type="checkbox"
+        class="h-4 w-4 text-beige border-gray-300 rounded focus:ring-beige"
+      />
+      <label for="is_important" class="block text-sm font-medium text-chrome"
+        >Is Important</label
+      >
+    </div>
+
+    <div class="flex justify-end space-x-2 w-full">
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="px-4 py-2 bg-brown text-white rounded-md"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        (click)="onAdd()"
+        [disabled]="taskForm.invalid"
+        class="px-4 py-2 bg-beige text-chrome rounded-md"
+      >
+        Add
+      </button>
+    </div>
+  </form>
+</div>

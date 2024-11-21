@@ -10,6 +10,8 @@ import { CustomerDataModel } from 'src/app/shared/models/customer-data.model';
 import { UserRole } from 'src/app/shared/enums/user-role.enum';
 import { ImportModalComponent } from '../modals/import-modal/import-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AddTaskModalComponent } from '../modals/add-task-modal/add-task-modal.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-main-content',
@@ -25,6 +27,7 @@ export class MainContentComponent {
   constructor(
     private loginService: LoginService,
     private dialog: MatDialog,
+    private http: HttpClient,
     private tasksService: TasksService
   ) {}
 
@@ -156,8 +159,27 @@ export class MainContentComponent {
     this.drop(event, newStatus);
   }
 
+  toggleImportant(task: any): void {
+    const updatedStatus = !task.is_important;
+    const url = `http://localhost:3000/api/tasks/importance/${task._id}`;
+    this.http
+      .put(url, { is_important: updatedStatus })
+      .subscribe((response: any) => {
+        task.is_important = response.is_important; // Update UI state
+      });
+  }
+
   trackByFn(index: number, item: any): any {
     return item;
+  }
+
+  addTask() {
+    const dialogRef = this.dialog.open(AddTaskModalComponent, {
+      width: '33%',
+      minWidth: '300px',
+      maxWidth: '550px',
+      panelClass: 'dialog-container',
+    });
   }
 
   importTasks() {

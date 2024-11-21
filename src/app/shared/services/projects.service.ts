@@ -11,6 +11,11 @@ export class ProjectsService {
 
   constructor(private http: HttpClient) {}
 
+  // Fetch all projects
+  getProjects(): Observable<any> {
+    return this.http.get(`${this.baseUrl}`);
+  }
+
   getAllProjects(userId: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${userId}`).pipe(
       tap((response) => {

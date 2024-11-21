@@ -12,9 +12,7 @@ async function addProject(req, res) {
       created_by: new ObjectId(created_by),
       created_at: new Date(),
     };
-
     const result = await projectsCollection.insertOne(newProject);
-
     res.status(201).json({
       success: true,
       message: "Project created successfully",
@@ -25,6 +23,25 @@ async function addProject(req, res) {
     res
       .status(500)
       .json({ success: false, message: "Failed to create project" });
+  }
+}
+
+async function getProjects(req, res) {
+  try {
+    // Fetch all projects from the projects collection
+    const projectsCollection = myDB.collection("projects");
+    const projects = await projectsCollection.find({}).toArray();
+
+    res.status(200).json({
+      success: true,
+      message: "Projects fetched successfully",
+      projects,
+    });
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to fetch projects" });
   }
 }
 
@@ -53,7 +70,6 @@ async function getAllProjectsForPM(req, res) {
       .json({ success: false, message: "Failed to fetch projects" });
   }
 }
-
 
 // New function to get all projects for a specific user by user_id
 async function getUserProjects(req, res) {
@@ -88,4 +104,9 @@ async function getUserProjects(req, res) {
   }
 }
 
-module.exports = { addProject, getAllProjectsForPM, getUserProjects };
+module.exports = {
+  addProject,
+  getProjects,
+  getAllProjectsForPM,
+  getUserProjects,
+};

@@ -8,6 +8,22 @@
   border-radius: 4px;
   overflow: hidden;
   display: block;
+  max-height: 350px; /* Set maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  box-sizing: border-box; /* Ensure padding is included in height */
+}
+
+.example-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.example-list::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
+}
+
+.example-list::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }
 
 .example-box {

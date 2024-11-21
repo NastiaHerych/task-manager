@@ -3,6 +3,7 @@ const {
   createTask,
   getTasksByUserId,
   updateTaskStatus,
+  updateImportance,
 } = require("../controllers/taskController");
 const multer = require("multer");
 const { importTasks } = require("../controllers/importController"); // Import controller
@@ -20,5 +21,6 @@ router.post("/create", createTask); // Create a new task
 router.get("/user/:user_id", getTasksByUserId); // Get tasks by user_id, structured by projects
 router.patch("/:task_id/status", updateTaskStatus);
 router.post("/import-tasks", upload.single("file"), importTasks); // Route to handle task import
+router.put("/importance/:task_id", updateImportance);
 
 module.exports = router;

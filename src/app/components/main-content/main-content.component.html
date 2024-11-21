@@ -4,6 +4,7 @@
       *ngIf="customerData.role === UserRole.ProjectManager"
       type="button"
       class="bg-brown text-white px-4 py-1.5 rounded-md w-fit font-semibold cursor-pointer"
+      (click)="addTask()"
     >
       <i class="fa-solid fa-circle-plus text-white pr-1"></i>
       Add task
@@ -59,6 +60,15 @@
           >
             Asignee: {{ item.user_info[0].username }}
           </p>
+          <i
+            class="fa-heart self-end cursor-pointer"
+            [ngClass]="
+              item.is_important
+                ? 'fa-solid text-red-500'
+                : 'fa-regular text-gray-400'
+            "
+            (click)="toggleImportant(item)"
+          ></i>
         </div>
       </div>
     </div>
@@ -95,6 +105,15 @@
           >
             Asignee: {{ item.user_info[0].username }}
           </p>
+          <i
+            class="fa-heart self-end cursor-pointer"
+            [ngClass]="
+              item.is_important
+                ? 'fa-solid text-red-500'
+                : 'fa-regular text-gray-400'
+            "
+            (click)="toggleImportant(item)"
+          ></i>
         </div>
       </div>
     </div>
@@ -131,6 +150,15 @@
           >
             Asignee: {{ item.user_info[0].username }}
           </p>
+          <i
+            class="fa-heart self-end cursor-pointer"
+            [ngClass]="
+              item.is_important
+                ? 'fa-solid text-red-500'
+                : 'fa-regular text-gray-400'
+            "
+            (click)="toggleImportant(item)"
+          ></i>
         </div>
       </div>
     </div>
@@ -167,6 +195,15 @@
           >
             Asignee: {{ item.user_info[0].username }}
           </p>
+          <i
+            class="fa-heart self-end cursor-pointer"
+            [ngClass]="
+              item.is_important
+                ? 'fa-solid text-red-500'
+                : 'fa-regular text-gray-400'
+            "
+            (click)="toggleImportant(item)"
+          ></i>
         </div>
       </div>
     </div>
@@ -203,6 +240,15 @@
           >
             Asignee: {{ item.user_info[0].username }}
           </p>
+          <i
+            class="fa-heart self-end cursor-pointer"
+            [ngClass]="
+              item.is_important
+                ? 'fa-solid text-red-500'
+                : 'fa-regular text-gray-400'
+            "
+            (click)="toggleImportant(item)"
+          ></i>
         </div>
       </div>
     </div>
@@ -241,6 +287,15 @@
           >
             Asignee: {{ item.user_info[1].username }}
           </p>
+          <i
+            class="fa-heart self-end cursor-pointer"
+            [ngClass]="
+              item.is_important
+                ? 'fa-solid text-red-500'
+                : 'fa-regular text-gray-400'
+            "
+            (click)="toggleImportant(item)"
+          ></i>
         </div>
       </div>
     </div>
@@ -276,6 +331,15 @@
           >
             Asignee: {{ item.user_info[1].username }}
           </p>
+          <i
+            class="fa-heart self-end cursor-pointer"
+            [ngClass]="
+              item.is_important
+                ? 'fa-solid text-red-500'
+                : 'fa-regular text-gray-400'
+            "
+            (click)="toggleImportant(item)"
+          ></i>
         </div>
       </div>
     </div>
@@ -311,6 +375,15 @@
           >
             Asignee: {{ item.user_info[1].username }}
           </p>
+          <i
+            class="fa-heart self-end cursor-pointer"
+            [ngClass]="
+              item.is_important
+                ? 'fa-solid text-red-500'
+                : 'fa-regular text-gray-400'
+            "
+            (click)="toggleImportant(item)"
+          ></i>
         </div>
       </div>
     </div>
@@ -348,6 +421,15 @@
           >
             Asignee: {{ item.user_info[1].username }}
           </p>
+          <i
+            class="fa-heart self-end cursor-pointer"
+            [ngClass]="
+              item.is_important
+                ? 'fa-solid text-red-500'
+                : 'fa-regular text-gray-400'
+            "
+            (click)="toggleImportant(item)"
+          ></i>
         </div>
       </div>
     </div>
@@ -383,6 +465,15 @@
           >
             Asignee: {{ item.user_info[1].username }}
           </p>
+          <i
+            class="fa-heart self-end cursor-pointer"
+            [ngClass]="
+              item.is_important
+                ? 'fa-solid text-red-500'
+                : 'fa-regular text-gray-400'
+            "
+            (click)="toggleImportant(item)"
+          ></i>
         </div>
       </div>
     </div>

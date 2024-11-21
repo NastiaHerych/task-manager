@@ -26,13 +26,13 @@ import { AddProjectModalComponent } from './components/modals/add-project-modal/
 import { ImportPageComponent } from './components/pages/import-page/import-page.component';
 import { HelpPageComponent } from './components/pages/help-page/help-page.component';
 import { ManageProjectsPageComponent } from './components/pages/manage-projects-page/manage-projects-page.component';
-import { ProjectTableComponent } from './components/tables/project-table/project-table.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ImportModalComponent } from './components/modals/import-modal/import-modal.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new AppTranslateLoader(http);
@@ -53,7 +53,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     ImportPageComponent,
     HelpPageComponent,
     ManageProjectsPageComponent,
-    ProjectTableComponent,
     ImportModalComponent,
   ],
   imports: [
@@ -70,6 +69,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatInputModule,
     MatButtonModule,
     NgxSpinnerModule,
+    FontAwesomeModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
