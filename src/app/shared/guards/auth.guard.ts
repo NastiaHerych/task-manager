@@ -4,6 +4,8 @@ import { AuthService } from '../services/authorization/auth.service';
 import { Route } from '../enums/route.enum';
 
 export const AuthGuard: CanActivateChildFn = () => {
+  console.log('guard');
+
   const authService = inject(AuthService);
   const router = inject(Router);
   const route = inject(ActivatedRoute);
@@ -17,7 +19,7 @@ export const AuthGuard: CanActivateChildFn = () => {
       .navigate([Route.LOGIN], {
         relativeTo: route,
       })
-      .then(() => {});;
+      .then(() => {});
     return false;
   }
 };

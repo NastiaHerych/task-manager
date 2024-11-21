@@ -2,8 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { myDB } = require("../config/db");
 
-const secretKey = "your_jwt_secret_key"; // Use a secure secret in production
-const saltRounds = 10;
+const secretKey = "your_jwt_secret_key"; 
 
 async function signup(req, res) {
   try {

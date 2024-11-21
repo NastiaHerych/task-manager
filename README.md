@@ -1,27 +1,35 @@
 # TaskManager
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.6.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Кроки для запуску проєкту
+1. Клонування репозиторію
+Клонуйте репозиторій за допомогою Git:
+git clone https://github.com/NastiaHerych/task-manager.git
+cd task-manager
+2. Налаштування MongoDB Atlas
+    1.	Створіть MongoDB кластер:
+        o	Перейдіть на MongoDB Atlas і створіть акаунт (якщо ще не маєте).
+        o	Створіть кластер в Atlas (можете вибрати безкоштовний план).
+    2.	Створіть базу даних і колекції:
+        o	Після створення кластера створіть нову базу даних, наприклад, task-manager-db.
+    3.	Отримання URL підключення:
+        o	Після налаштування кластера натисніть на "Connect" і виберіть "Connect your application".
+        o	Скопіюйте URL для підключення до вашого MongoDB кластера.
+    4.	Налаштування підключення в Node.js:
+        o	У кореневій директорії вашого проєкту перейдіть у файл backend – config – db.js.
+        o	Додайте змінну середовища для MongoDB підключення:
+        const uri = mongodb+srv://<username>:<password>@cluster0.mongodb.net/task-manager-db?retryWrites=true&w=majority
+        Замініть <username> та <password> на ваші дані доступу до MongoDB Atlas.
+3. Налаштування Node.js (Backend)
+    1.	Встановіть залежності для бекенду:
+    cd backend
+    npm install
+    2.	Запустіть сервер:
+    node server
+    Сервер буде доступний за адресою http://localhost:3000.
+4. Налаштування Angular (Frontend)
+    1.	Перейдіть у папку з front-end частиною:
+    cd src
+    2.	Встановіть залежності для front-end частини:
+    npm install
+    3.	Запустіть Angular додаток:
+    npm start
+    Front-end частина буде доступна за адресою http://localhost:4200.
